@@ -267,22 +267,16 @@ class Sen2CorAdapter:
         self.dlg.gippChooser.fileChanged.connect(self.toggleCustomSettings)
         # Config L2A_GIPP file chooser to ask for a file
         self.dlg.gippChooser.setStorageMode(self.dlg.gippChooser.StorageMode.GetFile)
+        # Adding values for each combo
         self.dlg.aerosolCombo.addItems(["RURAL","MARITIME","AUTO"])
         self.dlg.midLatCombo.addItems(["SUMMER","WINTER","AUTO"])
         self.dlg.ozoneCombo.addItems(["0","250","290","330","331","370","377","410","420","450","460"])
-        self.dlg.cirrusCorCombo.addItems([])
-        self.dlg.brdfCorCombo.addItems([])
-        self.dlg.brdfLowerForm.addItems([])
-        self.dlg.visibilityForm.addItems([])
-        self.dlg.altitudeForm.addItems([])
-        self.dlg.wvThresCirrusForm.addItems([])
-        self.dlg.demDirForm.addItems([])
-        self.dlg.demRefCombo.addItems([])
-        self.dlg.adjacencyRangeForm.addItems([])
-        self.dlg.smoothWvMapForm.addItems([])
-        self.dlg.generateDemOutCombo.addItems([])
-        self.dlg.generateTciOutCombo.addItems([])
-        self.dlg.generateDdvOutCombo.addItems([])
+        self.dlg.cirrusCorCombo.addItems(["TRUE","FALSE"])
+        self.dlg.brdfCorCombo.addItems(["0","1","2","11","12","22","21"])
+        self.dlg.demRefCombo.addItems(["http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF/"])
+        self.dlg.generateDemOutCombo.addItems(["TRUE","FALSE"])
+        self.dlg.generateTciOutCombo.addItems(["TRUE","FALSE"])
+        self.dlg.generateDdvOutCombo.addItems(["TRUE","FALSE"])
 
         #END MAIN CODE
 
