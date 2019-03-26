@@ -184,14 +184,6 @@ class Sen2CorAdapter:
             self.iface.removeToolBarIcon(action)
 
 
-    def toggleResCombo(self):
-        """Enables resolution combo if scene_only checkbox is checked"""
-        if self.dlg.scCheck.isChecked():
-            self.dlg.resCombo.setEnabled(True)
-        else:
-            self.dlg.resCombo.setEnabled(False)
-
-
     def toggleCustomSettings(self):
         """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered"""
         if self.dlg.gippChooser.filePath() == "":
@@ -260,22 +252,27 @@ class Sen2CorAdapter:
         # init resolution combo
         self.dlg.resCombo.addItems(["10","20","60","ALL"])
         self.dlg.resCombo.setCurrentIndex(2)
-        self.dlg.resCombo.setEnabled(False)
-        # connect to scene_only checkbox stateChange event
-        self.dlg.scCheck.stateChanged.connect(self.toggleResCombo)
         # same for L2A_GIPP file chooser
         self.dlg.gippChooser.fileChanged.connect(self.toggleCustomSettings)
         # Config L2A_GIPP file chooser to ask for a file
         self.dlg.gippChooser.setStorageMode(self.dlg.gippChooser.StorageMode.GetFile)
         # Adding values for each combo
         self.dlg.aerosolCombo.addItems(["RURAL","MARITIME","AUTO"])
+        self.dlg.aerosolCombo.setCurrentIndex(2)
         self.dlg.midLatCombo.addItems(["SUMMER","WINTER","AUTO"])
+        self.dlg.midLatCombo.setCurrentIndex(2)
         self.dlg.ozoneCombo.addItems(["0","250","290","330","331","370","377","410","420","450","460"])
+        self.dlg.ozoneCombo.setCurrentIndex(0)
         self.dlg.cirrusCorCombo.addItems(["TRUE","FALSE"])
+        self.dlg.cirrusCorCombo.setCurrentIndex(1)
         self.dlg.brdfCorCombo.addItems(["0","1","2","11","12","22","21"])
+        self.dlg.brdfCorCombo.setCurrentIndex(0)
         self.dlg.generateDemOutCombo.addItems(["TRUE","FALSE"])
+        self.dlg.generateDemOutCombo.setCurrentIndex(1)
         self.dlg.generateTciOutCombo.addItems(["TRUE","FALSE"])
+        self.dlg.generateTciOutCombo.setCurrentIndex(0)
         self.dlg.generateDdvOutCombo.addItems(["TRUE","FALSE"])
+        self.dlg.generateDdvOutCombo.setCurrentIndex(1)
 
         #END MAIN CODE
 

@@ -84,6 +84,9 @@
        </item>
        <item row="3" column="0">
         <widget class="QCheckBox" name="crCheck">
+         <property name="toolTip">
+          <string>Performs only the creation of the L2A product tree, no processing</string>
+         </property>
          <property name="text">
           <string>Cr only</string>
          </property>
@@ -91,6 +94,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="resLab">
+         <property name="toolTip">
+          <string>Target resolution, can be 10, 20 or 60m. If ALL, all resolutions will be processed</string>
+         </property>
          <property name="text">
           <string>Resolution :</string>
          </property>
@@ -98,6 +104,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QCheckBox" name="scCheck">
+         <property name="toolTip">
+          <string>Performs only the scene classification at 60 or 20m resolution</string>
+         </property>
          <property name="text">
           <string>Scene only</string>
          </property>
