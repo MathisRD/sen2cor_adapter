@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Sen2CorAdapterDialogBase</class>
+ <widget class="QDialog" name="Sen2CorAdapterDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>778</width>
+    <height>504</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Sen2Cor Adapter</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>742</width>
+        <height>1040</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="8" column="0">
+        <widget class="QLabel" name="medianFilterLab">
+         <property name="text">
+          <string>Median filter :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="altitudeLab">
+         <property name="text">
+          <string>Altitude :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QgsFileWidget" name="gippChooser"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="paramsLab">
+         <property name="text">
+          <string>Parameters below will be ignored if a L2A_GIPP file is selected</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="crCheck">
+         <property name="text">
+          <string>Cr only</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="resLab">
+         <property name="text">
+          <string>Resolution :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="scCheck">
+         <property name="text">
+          <string>Scene only</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="0">
+        <widget class="QLabel" name="brdfLowerLab">
+         <property name="text">
+          <string>Brdf lower :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="inputLab">
+         <property name="text">
+          <string>Input (.SAFE folder)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="0">
+        <widget class="QLabel" name="adjacencyRangeLab">
+         <property name="text">
+          <string>Adjacency range :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QgsFileWidget" name="inputChooser"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="nbProcLab">
+         <property name="text">
+          <string>Nb of processes :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="gippLab">
+         <property name="text">
+          <string>L2A_GIPP file :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="ozoneLab">
+         <property name="text">
+          <string>Ozone :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
+        <widget class="QgsSpinBox" name="visUpdateSpin">
+         <property name="maximum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QgsSpinBox" name="wvWatermaskSpin">
+         <property name="maximum">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0">
+        <widget class="QLabel" name="demUnitLab">
+         <property name="text">
+          <string>Dem unit :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="21" column="0">
+        <widget class="QLabel" name="demDirLab">
+         <property name="text">
+          <string>Dem directory :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="22" column="0">
+        <widget class="QLabel" name="demRefLab">
+         <property name="text">
+          <string>Dem reference :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="visibilityLab">
+         <property name="text">
+          <string>Visibility :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="0">
+        <widget class="QLabel" name="generateDemOutLab">
+         <property name="text">
+          <string>Generate DEM output :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QgsSpinBox" name="medianFilterSpin">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="midLatLab">
+         <property name="text">
+          <string>Mid lat :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="aerosolLab">
+         <property name="text">
+          <string>Aerosol :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QgsSpinBox" name="nbProcSpin">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="wvCorrectionLab">
+         <property name="text">
+          <string>Wv correction :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QLabel" name="wvWatermaskLab">
+         <property name="text">
+          <string>Wv watermask :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0">
+        <widget class="QLabel" name="wvThresCirrusLab">
+         <property name="text">
+          <string>Wv thres cirrus :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="QLabel" name="cirrusCorLab">
+         <property name="text">
+          <string>Cirrus correction :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="QgsSpinBox" name="wvCorrectionSpin">
+         <property name="maximum">
+          <number>4</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="visUpdateLab">
+         <property name="text">
+          <string>Vis update mode :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QLabel" name="brdfCorLab">
+         <property name="text">
+          <string>Brdf correction :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="0">
+        <widget class="QLabel" name="generateTciOutLab">
+         <property name="text">
+          <string>Generate TCI output :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="0">
+        <widget class="QLabel" name="smoothWvMapLab">
+         <property name="text">
+          <string>SmoothWV map :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="28" column="0">
+        <widget class="QLabel" name="generateDdvOutLab">
+         <property name="text">
+          <string>Generate DDV output :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="1">
+        <widget class="QLineEdit" name="brdfLowerForm"/>
+       </item>
+       <item row="18" column="1">
+        <widget class="QLineEdit" name="visibilityForm"/>
+       </item>
+       <item row="19" column="1">
+        <widget class="QLineEdit" name="altitudeForm"/>
+       </item>
+       <item row="20" column="1">
+        <widget class="QLineEdit" name="wvThresCirrusForm"/>
+       </item>
+       <item row="21" column="1">
+        <widget class="QLineEdit" name="demDirForm"/>
+       </item>
+       <item row="23" column="1">
+        <widget class="QgsSpinBox" name="demUnitSpin">
+         <property name="maximum">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="1">
+        <widget class="QLineEdit" name="adjacencyRangeForm"/>
+       </item>
+       <item row="25" column="1">
+        <widget class="QLineEdit" name="smoothWvMapForm"/>
+       </item>
+       <item row="26" column="1">
+        <widget class="QComboBox" name="generateDemOutCombo"/>
+       </item>
+       <item row="27" column="1">
+        <widget class="QComboBox" name="generateTciOutCombo"/>
+       </item>
+       <item row="28" column="1">
+        <widget class="QComboBox" name="generateDdvOutCombo"/>
+       </item>
+       <item row="22" column="1">
+        <widget class="QComboBox" name="demRefCombo"/>
+       </item>
+       <item row="16" column="1">
+        <widget class="QComboBox" name="brdfCorCombo"/>
+       </item>
+       <item row="15" column="1">
+        <widget class="QComboBox" name="cirrusCorCombo"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QComboBox" name="ozoneCombo"/>
+       </item>
+       <item row="10" column="1">
+        <widget class="QComboBox" name="midLatCombo"/>
+       </item>
+       <item row="9" column="1">
+        <widget class="QComboBox" name="aerosolCombo"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="resCombo"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsFileWidget</class>
+   <extends>QWidget</extends>
+   <header>qgsfilewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QgsSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>qgsspinbox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>Sen2CorAdapterDialogBase</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>Sen2CorAdapterDialogBase</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

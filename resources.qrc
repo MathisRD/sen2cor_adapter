@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/sen2cor_adapter" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
