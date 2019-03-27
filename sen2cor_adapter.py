@@ -244,17 +244,123 @@ class Sen2CorAdapter:
         isOk = False
 
         if self.dlg.inputChooser.filePath() != "":
-            self.debugLog("File path entered !")
+            if self.checkBrdfBounds():
+                if self.checkVisibilityBounds():
+                    if self.checkAltitudeBounds():
+                        if self.checkWvThresBounds():
+                            if self.checkAdjacencyBounds():
+                                if self.checkSmoothWvMapBounds():
+                                    pass
+                                else:
+                                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("SmoothWV map value must be between 0.0 and 300 !"))
+                            else:
+                                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Adjacency range value must be between 0.0 and 10 !"))
+                        else:
+                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Wv thres cirrus value must be between 0.1 and 1.0 !"))
+                    else:
+                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Altitude value must be between 0 and 2.5 !"))
+                else:
+                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Visibility value must be between 5 and 120 !"))
+            else:
+                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Brdf lower bound value must be between 0.1 and 0.25 !"))
+
 
         else:
-            self.debugLog("Empty file path !")
             msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
 
         return isOk
 
+
+    def checkBrdfBounds(self):
+        isOk = True
+        minBound = 0.1
+        maxBound = 0.25
+        try:
+            value = float(self.dlg.brdfLowerForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+
+    def checkVisibilityBounds(self):
+        isOk = True
+        minBound = 5.0
+        maxBound = 120.0
+        try:
+            value = float(self.dlg.visibilityForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+
+    def checkAltitudeBounds(self):
+        isOk = True
+        minBound = 0.0
+        maxBound = 2.5
+        try:
+            value = float(self.dlg.altitudeForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+
+    def checkWvThresBounds(self):
+        isOk = True
+        minBound = 0.1
+        maxBound = 1.0
+        try:
+            value = float(self.dlg.wvThresCirrusForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+    def checkAdjacencyBounds(self):
+        isOk = True
+        minBound = 0.0
+        maxBound = 10.0
+        try:
+            value = float(self.dlg.adjacencyRangeForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+    def checkSmoothWvMapBounds(self):
+        isOk = True
+        minBound = 0.0
+        maxBound = 300.0
+        try:
+            value = float(self.dlg.smoothWvMapForm.text())
+            if (minBound > value) or (maxBound < value):
+                isOk = False
+
+        except (ValueError, TypeError):
+            isOk = False
+
+        return isOk
+
+
     def startProcess(self):
         self.checkInput()
-
 
     def run(self):
         """Run method that performs all the real work"""
