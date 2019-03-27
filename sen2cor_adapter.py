@@ -249,6 +249,7 @@ class Sen2CorAdapter:
 
         # Config input file chooser to ask for a directory
         self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
+        self.dlg.outputChooser.setStorageMode(self.dlg.outputChooser.StorageMode.GetDirectory)
         # init resolution combo
         self.dlg.resCombo.addItems(["10","20","60","ALL"])
         self.dlg.resCombo.setCurrentIndex(2)
