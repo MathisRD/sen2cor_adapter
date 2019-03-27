@@ -35,158 +35,103 @@
         <x>0</x>
         <y>0</y>
         <width>742</width>
-        <height>1040</height>
+        <height>1049</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="8" column="0">
-        <widget class="QLabel" name="medianFilterLab">
+       <item row="13" column="1">
+        <widget class="QgsSpinBox" name="wvCorrectionSpin">
+         <property name="maximum">
+          <number>4</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="29" column="0">
+        <widget class="QLabel" name="generateDdvOutLab">
          <property name="toolTip">
-          <string>Median filtering used for shaping of scene classificaion</string>
+          <string>FALSE: no DDV output, TRUE: store DDV in the QI_DATA directory</string>
          </property>
          <property name="text">
-          <string>Median filter :</string>
+          <string>Generate DDV output :</string>
          </property>
         </widget>
        </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="altitudeLab">
-         <property name="toolTip">
-          <string>Default altitude in Km (from 0 to 2.5)</string>
-         </property>
+       <item row="18" column="1">
+        <widget class="QLineEdit" name="brdfLowerForm">
          <property name="text">
-          <string>Altitude :</string>
+          <string>0.22</string>
          </property>
         </widget>
        </item>
-       <item row="21" column="0">
-        <widget class="QLabel" name="demDirLab">
-         <property name="toolTip">
-          <string>Reference to directory of DEM location. If left blank, no DEM will be used.</string>
-         </property>
+       <item row="21" column="1">
+        <widget class="QLineEdit" name="wvThresCirrusForm">
          <property name="text">
-          <string>Dem directory :</string>
+          <string>0.25</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QgsFileWidget" name="gippChooser"/>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="paramsLab">
-         <property name="text">
-          <string>Hover parameters name tags to get details</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="crCheck">
-         <property name="toolTip">
-          <string>Performs only the creation of the L2A product tree, no processing</string>
-         </property>
-         <property name="text">
-          <string>Cr only</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="resLab">
-         <property name="toolTip">
-          <string>Target resolution, can be 10, 20 or 60m. If ALL, all resolutions will be processed</string>
-         </property>
-         <property name="text">
-          <string>Resolution :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="scCheck">
-         <property name="toolTip">
-          <string>Performs only the scene classification at 60 or 20m resolution</string>
-         </property>
-         <property name="text">
-          <string>Scene only</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QLabel" name="brdfLowerLab">
-         <property name="toolTip">
-          <string>Lower bound of BRDF correction (from 0.1 to 0.25): In most cases, g=0.2 to 0.25 is adequate, in extreme cases of overcorrection g=0.1 should be applied</string>
-         </property>
-         <property name="text">
-          <string>Brdf lower bound :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="inputLab">
-         <property name="text">
-          <string>Input (.SAFE folder)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="24" column="0">
-        <widget class="QLabel" name="adjacencyRangeLab">
-         <property name="toolTip">
-          <string>Default adjacency range in Km (from 0 to 10.0)</string>
-         </property>
-         <property name="text">
-          <string>Adjacency range :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="nbProcLab">
-         <property name="toolTip">
-          <string>0 = AUTO - Number of processes you intend to operate in parallel</string>
-         </property>
-         <property name="text">
-          <string>Nb of processes :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QgsFileWidget" name="inputChooser"/>
+       <item row="22" column="1">
+        <widget class="QLineEdit" name="demDirForm"/>
        </item>
        <item row="26" column="1">
-        <widget class="QComboBox" name="generateDemOutCombo"/>
+        <widget class="QLineEdit" name="smoothWvMapForm">
+         <property name="text">
+          <string>100.0</string>
+         </property>
+        </widget>
        </item>
-       <item row="27" column="1">
-        <widget class="QComboBox" name="generateTciOutCombo"/>
+       <item row="24" column="1">
+        <widget class="QgsSpinBox" name="demUnitSpin">
+         <property name="maximum">
+          <number>2</number>
+         </property>
+        </widget>
        </item>
-       <item row="28" column="1">
-        <widget class="QComboBox" name="generateDdvOutCombo"/>
+       <item row="25" column="1">
+        <widget class="QLineEdit" name="adjacencyRangeForm">
+         <property name="text">
+          <string>1.0</string>
+         </property>
+        </widget>
        </item>
-       <item row="16" column="1">
-        <widget class="QComboBox" name="brdfCorCombo"/>
+       <item row="20" column="1">
+        <widget class="QLineEdit" name="altitudeForm">
+         <property name="text">
+          <string>0.100</string>
+         </property>
+        </widget>
        </item>
-       <item row="15" column="1">
-        <widget class="QComboBox" name="cirrusCorCombo"/>
+       <item row="19" column="1">
+        <widget class="QLineEdit" name="visibilityForm">
+         <property name="text">
+          <string>40.0</string>
+         </property>
+        </widget>
        </item>
-       <item row="11" column="1">
-        <widget class="QComboBox" name="ozoneCombo"/>
+       <item row="23" column="1">
+        <widget class="QLineEdit" name="demRefForm">
+         <property name="text">
+          <string>http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF/</string>
+         </property>
+        </widget>
        </item>
        <item row="10" column="1">
-        <widget class="QComboBox" name="midLatCombo"/>
-       </item>
-       <item row="9" column="1">
         <widget class="QComboBox" name="aerosolCombo"/>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QComboBox" name="resCombo"/>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="gippLab">
          <property name="text">
           <string>L2A_GIPP file :</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
+       <item row="12" column="0">
         <widget class="QLabel" name="ozoneLab">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The atmospheric temperature profile and ozone content in Dobson Unit (DU):&lt;/p&gt;&lt;p&gt;0: to get the best approximation from metadata (this is the smallest difference between metadata and column DU)&lt;/p&gt;&lt;p&gt;else select one of:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;For midlatitude summer (MS) atmosphere: 250, 290, 331 (standard MS), 370, 410, 450&lt;/li&gt;&lt;li&gt;For midlatitude winter (MW) atmosphere: 250, 290, 330, 377 (standard MW), 420, 460&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -196,84 +141,7 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="1">
-        <widget class="QgsSpinBox" name="wvWatermaskSpin">
-         <property name="maximum">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QgsSpinBox" name="visUpdateSpin">
-         <property name="maximum">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="0">
-        <widget class="QLabel" name="demUnitLab">
-         <property name="toolTip">
-          <string>Default DEM unit: 0=[m], 1=[dm], 2=[cm]</string>
-         </property>
-         <property name="text">
-          <string>Dem unit :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="0">
-        <widget class="QLabel" name="demRefLab">
-         <property name="toolTip">
-          <string>Reference to DEM URL. A SRTM DEM will be downloaded from this reference, if no local DEM is available.</string>
-         </property>
-         <property name="text">
-          <string>Dem reference :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QLabel" name="visibilityLab">
-         <property name="toolTip">
-          <string>5 km &lt;= visibility &lt;= 120 km</string>
-         </property>
-         <property name="text">
-          <string>Visibility :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="26" column="0">
-        <widget class="QLabel" name="generateDemOutLab">
-         <property name="toolTip">
-          <string>FALSE: no DEM output, TRUE: store DEM in the AUX data directory</string>
-         </property>
-         <property name="text">
-          <string>Generate DEM output :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QgsSpinBox" name="medianFilterSpin">
-         <property name="maximum">
-          <number>10</number>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="midLatLab">
-         <property name="toolTip">
-          <string>Default mid latitue, if not automatic determinded via metadata, can be: SUMMER, WINTER, AUTO</string>
-         </property>
-         <property name="text">
-          <string>Mid lat :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0">
+       <item row="17" column="0">
         <widget class="QLabel" name="brdfCorLab">
          <property name="toolTip">
           <string>0: no BRDF correction, 1, 2, 11, 12, 22, 21: see S2-PDGS-MPC-L2A-IODD for explanation</string>
@@ -283,7 +151,84 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="15" column="1">
+        <widget class="QgsSpinBox" name="wvWatermaskSpin">
+         <property name="maximum">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0">
+        <widget class="QLabel" name="demRefLab">
+         <property name="toolTip">
+          <string>Reference to DEM URL. A SRTM DEM will be downloaded from this reference, if no local DEM is available.</string>
+         </property>
+         <property name="text">
+          <string>Dem reference :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QgsSpinBox" name="visUpdateSpin">
+         <property name="maximum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="0">
+        <widget class="QLabel" name="demUnitLab">
+         <property name="toolTip">
+          <string>Default DEM unit: 0=[m], 1=[dm], 2=[cm]</string>
+         </property>
+         <property name="text">
+          <string>Dem unit :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="visibilityLab">
+         <property name="toolTip">
+          <string>5 km &lt;= visibility &lt;= 120 km</string>
+         </property>
+         <property name="text">
+          <string>Visibility :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="0">
+        <widget class="QLabel" name="generateDemOutLab">
+         <property name="toolTip">
+          <string>FALSE: no DEM output, TRUE: store DEM in the AUX data directory</string>
+         </property>
+         <property name="text">
+          <string>Generate DEM output :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QgsSpinBox" name="medianFilterSpin">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="midLatLab">
+         <property name="toolTip">
+          <string>Default mid latitue, if not automatic determinded via metadata, can be: SUMMER, WINTER, AUTO</string>
+         </property>
+         <property name="text">
+          <string>Mid lat :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
         <widget class="QLabel" name="aerosolLab">
          <property name="toolTip">
           <string>Default aerosol type, if not automatic determinded via metadata, can be: RURAL, MARITIME or AUTO</string>
@@ -293,7 +238,7 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
+       <item row="13" column="0">
         <widget class="QLabel" name="wvCorrectionLab">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enumeration for correction of Water Vapour: &lt;/p&gt;&lt;ul&gt;&lt;li&gt;0: No correction&lt;/li&gt;&lt;li&gt;1: only 940 nm bands&lt;/li&gt;&lt;li&gt;2: only 1130 nm bands&lt;/li&gt;&lt;li&gt;3: both regions used during wv retrieval&lt;/li&gt;&lt;li&gt;4: Thermal region&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -303,7 +248,7 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
+       <item row="15" column="0">
         <widget class="QLabel" name="wvWatermaskLab">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enumeration for setting of Water Vapour mask&lt;/p&gt;&lt;ul&gt;&lt;li&gt;0: not replaced&lt;/li&gt;&lt;li&gt;1: land-average&lt;/li&gt;&lt;li&gt;2: line-average&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -313,7 +258,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="8" column="1">
         <widget class="QgsSpinBox" name="nbProcSpin">
          <property name="minimum">
           <number>0</number>
@@ -326,17 +271,7 @@
          </property>
         </widget>
        </item>
-       <item row="20" column="0">
-        <widget class="QLabel" name="wvThresCirrusLab">
-         <property name="toolTip">
-          <string>Water Vapor threshold to switch off cirrus algorithm [cm] from 0.1 to 1.0</string>
-         </property>
-         <property name="text">
-          <string>Wv thres cirrus :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
+       <item row="16" column="0">
         <widget class="QLabel" name="cirrusCorLab">
          <property name="toolTip">
           <string>Boolean flag for cirrus correction, FALSE: no cirrus correction applied, TRUE: cirrus correction applied</string>
@@ -346,7 +281,17 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="0">
+       <item row="21" column="0">
+        <widget class="QLabel" name="wvThresCirrusLab">
+         <property name="toolTip">
+          <string>Water Vapor threshold to switch off cirrus algorithm [cm] from 0.1 to 1.0</string>
+         </property>
+         <property name="text">
+          <string>Wv thres cirrus :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
         <widget class="QLabel" name="visUpdateLab">
          <property name="toolTip">
           <string>Update mode for visibility: 0: fixed or 1: automatic determination</string>
@@ -356,27 +301,7 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="1">
-        <widget class="QgsSpinBox" name="wvCorrectionSpin">
-         <property name="maximum">
-          <number>4</number>
-         </property>
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="27" column="0">
-        <widget class="QLabel" name="generateTciOutLab">
-         <property name="toolTip">
-          <string>FALSE: no TCI output, TRUE: store TCI in the IMAGE data directory</string>
-         </property>
-         <property name="text">
-          <string>Generate TCI output :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="0">
+       <item row="26" column="0">
         <widget class="QLabel" name="smoothWvMapLab">
          <property name="toolTip">
           <string>Length of square box in meters (from 0 to 300.0)</string>
@@ -387,71 +312,160 @@
         </widget>
        </item>
        <item row="28" column="0">
-        <widget class="QLabel" name="generateDdvOutLab">
+        <widget class="QLabel" name="generateTciOutLab">
          <property name="toolTip">
-          <string>FALSE: no DDV output, TRUE: store DDV in the QI_DATA directory</string>
+          <string>FALSE: no TCI output, TRUE: store TCI in the IMAGE data directory</string>
          </property>
          <property name="text">
-          <string>Generate DDV output :</string>
+          <string>Generate TCI output :</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="paramsLab">
+         <property name="text">
+          <string>Hover parameters name tags to get details</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="medianFilterLab">
+         <property name="toolTip">
+          <string>Median filtering used for shaping of scene classificaion</string>
+         </property>
+         <property name="text">
+          <string>Median filter :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0">
+        <widget class="QLabel" name="altitudeLab">
+         <property name="toolTip">
+          <string>Default altitude in Km (from 0 to 2.5)</string>
+         </property>
+         <property name="text">
+          <string>Altitude :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="22" column="0">
+        <widget class="QLabel" name="demDirLab">
+         <property name="toolTip">
+          <string>Reference to directory of DEM location. If left blank, no DEM will be used.</string>
+         </property>
+         <property name="text">
+          <string>Dem directory :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QgsFileWidget" name="gippChooser"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="crCheck">
+         <property name="toolTip">
+          <string>Performs only the creation of the L2A product tree, no processing</string>
+         </property>
+         <property name="text">
+          <string>Cr only</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="resLab">
+         <property name="toolTip">
+          <string>Target resolution, can be 10, 20 or 60m. If ALL, all resolutions will be processed</string>
+         </property>
+         <property name="text">
+          <string>Resolution :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="scCheck">
+         <property name="toolTip">
+          <string>Performs only the scene classification at 60 or 20m resolution</string>
+         </property>
+         <property name="text">
+          <string>Scene only</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="brdfLowerLab">
+         <property name="toolTip">
+          <string>Lower bound of BRDF correction (from 0.1 to 0.25): In most cases, g=0.2 to 0.25 is adequate, in extreme cases of overcorrection g=0.1 should be applied</string>
+         </property>
+         <property name="text">
+          <string>Brdf lower bound :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="inputLab">
+         <property name="text">
+          <string>Input (.SAFE folder)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="0">
+        <widget class="QLabel" name="adjacencyRangeLab">
+         <property name="toolTip">
+          <string>Default adjacency range in Km (from 0 to 10.0)</string>
+         </property>
+         <property name="text">
+          <string>Adjacency range :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="nbProcLab">
+         <property name="toolTip">
+          <string>0 = AUTO - Number of processes you intend to operate in parallel</string>
+         </property>
+         <property name="text">
+          <string>Nb of processes :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QgsFileWidget" name="inputChooser"/>
+       </item>
+       <item row="27" column="1">
+        <widget class="QComboBox" name="generateDemOutCombo"/>
+       </item>
+       <item row="28" column="1">
+        <widget class="QComboBox" name="generateTciOutCombo"/>
+       </item>
+       <item row="29" column="1">
+        <widget class="QComboBox" name="generateDdvOutCombo"/>
        </item>
        <item row="17" column="1">
-        <widget class="QLineEdit" name="brdfLowerForm">
-         <property name="text">
-          <string>0.22</string>
+        <widget class="QComboBox" name="brdfCorCombo"/>
+       </item>
+       <item row="16" column="1">
+        <widget class="QComboBox" name="cirrusCorCombo"/>
+       </item>
+       <item row="12" column="1">
+        <widget class="QComboBox" name="ozoneCombo"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QComboBox" name="midLatCombo"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="20" column="1">
-        <widget class="QLineEdit" name="wvThresCirrusForm">
-         <property name="text">
-          <string>0.25</string>
-         </property>
-        </widget>
-       </item>
-       <item row="21" column="1">
-        <widget class="QLineEdit" name="demDirForm"/>
-       </item>
-       <item row="23" column="1">
-        <widget class="QgsSpinBox" name="demUnitSpin">
-         <property name="maximum">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="24" column="1">
-        <widget class="QLineEdit" name="adjacencyRangeForm">
-         <property name="text">
-          <string>1.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="1">
-        <widget class="QLineEdit" name="smoothWvMapForm">
-         <property name="text">
-          <string>100.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="1">
-        <widget class="QLineEdit" name="altitudeForm">
-         <property name="text">
-          <string>0.100</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="1">
-        <widget class="QLineEdit" name="visibilityForm">
-         <property name="text">
-          <string>40.0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="1">
-        <widget class="QLineEdit" name="demRefForm">
-         <property name="text">
-          <string>http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF/</string>
+       <item row="7" column="0">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
