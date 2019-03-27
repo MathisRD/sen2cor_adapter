@@ -21,9 +21,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QXmlStreamWriter
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QDialogButtonBox, QPushButton, QErrorMessage, QMessageBox
 from qgis.gui import *
 from qgis.core import *
 
@@ -235,6 +235,23 @@ class Sen2CorAdapter:
             self.dlg.generateTciOutCombo.setEnabled(False)
             self.dlg.generateDdvOutCombo.setEnabled(False)
 
+    def debugLog(self, message):
+        self.dlg.paramsLab.setText(message)
+
+    def checkInput(self):
+        isOk = False
+
+        if self.dlg.inputChooser.filePath() != "":
+            self.debugLog("File path entered !")
+        else:
+            self.debugLog("Empty file path !")
+            msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
+
+        return isOk
+
+    def startProcess(self):
+        self.checkInput()
+
 
     def run(self):
         """Run method that performs all the real work"""
@@ -244,6 +261,11 @@ class Sen2CorAdapter:
         if self.first_start == True:
             self.first_start = False
             self.dlg = Sen2CorAdapterDialog()
+            # Add run button in bottom button box
+            self.dlg.runButton = QPushButton("Run")
+            self.dlg.button_box.addButton(self.dlg.runButton, QDialogButtonBox.ActionRole)
+            self.dlg.runButton.clicked.connect(self.startProcess)
+
 
         #MAIN CODE
 
@@ -281,9 +303,9 @@ class Sen2CorAdapter:
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        #result = self.dlg.exec_()
         # See if OK was pressed
-        if result:
+        #if result:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
-            pass
+        #    pass
