@@ -381,32 +381,41 @@ class Sen2CorAdapter:
             self.dlg.nbProcSpin.setMaximum(multiprocessing.cpu_count())
             # init resolution combo
             self.dlg.resCombo.addItems(["10","20","60","ALL"])
-            self.dlg.resCombo.setCurrentIndex(2)
             # same for L2A_GIPP file chooser
             self.dlg.gippChooser.fileChanged.connect(self.toggleCustomSettings)
             # Config L2A_GIPP file chooser to ask for a file
             self.dlg.gippChooser.setStorageMode(self.dlg.gippChooser.StorageMode.GetFile)
             # Adding values for each combo
             self.dlg.aerosolCombo.addItems(["RURAL","MARITIME","AUTO"])
-            self.dlg.aerosolCombo.setCurrentIndex(2)
             self.dlg.midLatCombo.addItems(["SUMMER","WINTER","AUTO"])
-            self.dlg.midLatCombo.setCurrentIndex(2)
             self.dlg.ozoneCombo.addItems(["0","250","290","330","331","370","377","410","420","450","460"])
-            self.dlg.ozoneCombo.setCurrentIndex(0)
             self.dlg.cirrusCorCombo.addItems(["TRUE","FALSE"])
-            self.dlg.cirrusCorCombo.setCurrentIndex(1)
             self.dlg.brdfCorCombo.addItems(["0","1","2","11","12","22","21"])
-            self.dlg.brdfCorCombo.setCurrentIndex(0)
             self.dlg.generateDemOutCombo.addItems(["TRUE","FALSE"])
-            self.dlg.generateDemOutCombo.setCurrentIndex(1)
             self.dlg.generateTciOutCombo.addItems(["TRUE","FALSE"])
-            self.dlg.generateTciOutCombo.setCurrentIndex(0)
             self.dlg.generateDdvOutCombo.addItems(["TRUE","FALSE"])
-            self.dlg.generateDdvOutCombo.setCurrentIndex(1)
 
 
         #MAIN CODE
 
+        # Initialize default values
+        self.dlg.scCheck.setChecked(False)
+        self.dlg.crCheck.setChecked(False)
+        self.dlg.resCombo.setCurrentIndex(2)
+        self.dlg.aerosolCombo.setCurrentIndex(2)
+        self.dlg.midLatCombo.setCurrentIndex(2)
+        self.dlg.ozoneCombo.setCurrentIndex(0)
+        self.dlg.cirrusCorCombo.setCurrentIndex(1)
+        self.dlg.brdfCorCombo.setCurrentIndex(0)
+        self.dlg.generateDemOutCombo.setCurrentIndex(1)
+        self.dlg.generateTciOutCombo.setCurrentIndex(0)
+        self.dlg.generateDdvOutCombo.setCurrentIndex(1)
+        self.dlg.brdfLowerForm.setText(str("0.22"))
+        self.dlg.visibilityForm.setText(str("40.0"))
+        self.dlg.altitudeForm.setText(str("0.100"))
+        self.dlg.wvThresCirrusForm.setText(str("0.25"))
+        self.dlg.adjacencyRangeForm.setText(str("1.0"))
+        self.dlg.smoothWvMapForm.setText(str("100.0"))
 
 
         #END MAIN CODE
