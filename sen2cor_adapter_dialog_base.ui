@@ -33,7 +33,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-55</y>
         <width>742</width>
         <height>1089</height>
        </rect>
@@ -262,9 +262,6 @@
         <widget class="QgsSpinBox" name="nbProcSpin">
          <property name="minimum">
           <number>0</number>
-         </property>
-         <property name="maximum">
-          <number>999</number>
          </property>
          <property name="value">
           <number>0</number>

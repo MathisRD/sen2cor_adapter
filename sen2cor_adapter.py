@@ -31,7 +31,9 @@ from qgis.core import *
 from .resources import *
 # Import the code for the dialog
 from .sen2cor_adapter_dialog import Sen2CorAdapterDialog
+
 import os.path
+import multiprocessing
 
 
 class Sen2CorAdapter:
@@ -269,6 +271,8 @@ class Sen2CorAdapter:
             # Config input file chooser to ask for a directory
             self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
             self.dlg.outputChooser.setStorageMode(self.dlg.outputChooser.StorageMode.GetDirectory)
+            # Set max number of processes
+            self.dlg.nbProcSpin.setMaximum(multiprocessing.cpu_count())
             # init resolution combo
             self.dlg.resCombo.addItems(["10","20","60","ALL"])
             self.dlg.resCombo.setCurrentIndex(2)
