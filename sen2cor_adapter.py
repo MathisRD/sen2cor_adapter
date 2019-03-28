@@ -34,6 +34,7 @@ from .sen2cor_adapter_dialog import Sen2CorAdapterDialog
 
 import os.path
 import multiprocessing
+import xml.etree.ElementTree as ET
 
 
 class Sen2CorAdapter:
@@ -241,115 +242,54 @@ class Sen2CorAdapter:
         self.dlg.paramsLab.setText(str(message))
 
     def writeGipp(self):
-        # path = os.path.dirname(os.path.realpath(__file__))+"/tmp/oui.xml"
-        # gippFile = QFile(path)
-        # self.debugLog(gippFile.open(QFile.WriteOnly))
-        # stream = QXmlStreamWriter(gippFile)
-        # stream.setAutoFormatting(True)
-        # stream.writeStartDocument()
-        # stream.writeStartElement("bookmark")
-        # stream.writeAttribute("href", "http://qt-project.org/")
-        # stream.writeTextElement("title", "Qt Home")
-        # stream.writeEndElement() # bookmark
-        # stream.writeEndDocument()
-        # gippFile.close()
+        # Saving L2A-GIPP template and output path
+        templateGippPath = os.path.dirname(os.path.realpath(__file__))+"/L2A_GIPP_Template.xml"
+        customGippPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
 
-        path = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP.xml"
-        gippFile = QFile(path)
-        self.debugLog(gippFile.open(QFile.WriteOnly))
-        stream = QXmlStreamWriter(gippFile)
-        stream.setAutoFormatting(True)
-        stream.writeStartDocument()
-        stream.writeStartElement("Level-2A_Ground_Image_Processing_Parameter")
-        stream.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
-        stream.writeAttribute("xsi:noNamespaceSchemaLocation", "L2A_GIPP.xsd")
-        stream.writeStartElement("Common_Section")
-        stream.writeTextElement("Log_Level", "INFO")
-        stream.writeTextElement("Operation_Mode","PDGS")
+        # Importing the template xml data
+        tree = ET.parse(templateGippPath)
+        root = tree.getroot()
 
+        # Editing with user's custom settings
         if self.dlg.nbProcSpin.value() == 0:
-            stream.writeTextElement("Nr_Processes","AUTO")
+            root.find("./Common_Section/Nr_Processes").text = "AUTO"
         else:
-            stream.writeTextElement("Nr_Processes",str(self.dlg.nbProcSpin.value()))
+            root.find("./Common_Section/Nr_Processes").text = str(self.dlg.nbProcSpin.value())
 
         if self.dlg.outputChooser.filePath() == "":
-            stream.writeTextElement("Target_Directory","DEFAULT")
+            root.find("./Common_Section/Target_Directory").text = "DEFAULT"
         else:
-            stream.writeTextElement("Target_Directory",self.dlg.outputChooser.filePath())
+            root.find("./Common_Section/Target_Directory").text = self.dlg.outputChooser.filePath()
 
         if self.dlg.demDirForm.text() == "":
-            stream.writeTextElement("DEM_Directory","NONE")
+            root.find("./Common_Section/DEM_Directory").text = "NONE"
         else:
-            stream.writeTextElement("DEM_Directory",self.dlg.demDirForm.text())
+            root.find("./Common_Section/DEM_Directory").text = self.dlg.demDirForm.text()
 
-        stream.writeTextElement("DEM_Reference",self.dlg.demRefForm.text())
-        stream.writeTextElement("Generate_DEM_Output",self.dlg.generateDemOutCombo.currentText())
-        stream.writeTextElement("Generate_TCI_Output",self.dlg.generateTciOutCombo.currentText())
-        stream.writeTextElement("Generate_DDV_Output",self.dlg.generateDdvOutCombo.currentText())
+        root.find("./Common_Section/DEM_Reference").text = self.dlg.demRefForm.text()
+        root.find("./Common_Section/Generate_DEM_Output").text = self.dlg.generateDemOutCombo.currentText()
+        root.find("./Common_Section/Generate_TCI_Output").text = self.dlg.generateTciOutCombo.currentText()
+        root.find("./Common_Section/Generate_DDV_Output").text = self.dlg.generateDdvOutCombo.currentText()
+        root.find("./Scene_Classification/Filters/Median_Filter").text = str(self.dlg.medianFilterSpin.value())
+        root.find("./Atmospheric_Correction/Look_Up_Tables/Aerosol_Type").text = self.dlg.aerosolCombo.currentText()
+        root.find("./Atmospheric_Correction/Look_Up_Tables/Mid_Latitude").text = self.dlg.midLatCombo.currentText()
+        root.find("./Atmospheric_Correction/Look_Up_Tables/Ozone_Content").text = self.dlg.ozoneCombo.currentText()
+        root.find("./Atmospheric_Correction/Flags/WV_Correction").text = str(self.dlg.wvCorrectionSpin.value())
+        root.find("./Atmospheric_Correction/Flags/VIS_Update_Mode").text = str(self.dlg.visUpdateSpin.value())
+        root.find("./Atmospheric_Correction/Flags/WV_Watermask").text = str(self.dlg.wvWatermaskSpin.value())
+        root.find("./Atmospheric_Correction/Flags/Cirrus_Correction").text = self.dlg.cirrusCorCombo.currentText()
+        root.find("./Atmospheric_Correction/Flags/BRDF_Correction").text = self.dlg.brdfCorCombo.currentText()
+        root.find("./Atmospheric_Correction/Flags/BRDF_Lower_Bound").text = self.dlg.brdfLowerForm.text()
+        root.find("./Atmospheric_Correction/Calibration/DEM_Unit").text = str(self.dlg.demUnitSpin.value())
+        root.find("./Atmospheric_Correction/Calibration/Adj_Km").text = self.dlg.adjacencyRangeForm.text()
+        root.find("./Atmospheric_Correction/Calibration/Visibility").text = self.dlg.visibilityForm.text()
+        root.find("./Atmospheric_Correction/Calibration/Altitude").text = self.dlg.altitudeForm.text()
+        root.find("./Atmospheric_Correction/Calibration/Smooth_WV_Map").text = self.dlg.smoothWvMapForm.text()
+        root.find("./Atmospheric_Correction/Calibration/WV_Threshold_Cirrus").text = self.dlg.wvThresCirrusForm.text()
 
-        stream.writeStartElement("PSD_Scheme")
-        stream.writeAttribute("PSD_Version","13.1")
-        stream.writeAttribute("PSD_Reference","S2-PDGS-TAS-DI-PSD-V13.1_Schema")
-        stream.writeTextElement("UP_Scheme_1C","S2_User_Product_Level-1C_Metadata")
-        stream.writeTextElement("UP_Scheme_2A","S2_User_Product_Level-2A_Metadata")
-        stream.writeTextElement("Tile_Scheme_1C","S2_PDI_Level-1C_Tile_Metadata")
-        stream.writeTextElement("Tile_Scheme_2A","S2_PDI_Level-2A_Tile_Metadata")
-        stream.writeTextElement("DS_Scheme_1C","S2_PDI_Level-1C_Datastrip_Metadata")
-        stream.writeTextElement("DS_Scheme_2A","S2_PDI_Level-2A_Datastrip_Metadata")
-        stream.writeEndElement() # PSD_Scheme
+        # Write custom setting in new custom L2A_GIPP.xml file
+        tree.write(customGippPath)
 
-        stream.writeStartElement("PSD_Scheme")
-        stream.writeAttribute("PSD_Version","14.2")
-        stream.writeAttribute("PSD_Reference","S2-PDGS-TAS-DI-PSD-V14.2_Schema")
-        stream.writeTextElement("UP_Scheme_1C","S2_User_Product_Level-1C_Metadata")
-        stream.writeTextElement("UP_Scheme_2A","S2_User_Product_Level-2A_Metadata")
-        stream.writeTextElement("Tile_Scheme_1C","S2_PDI_Level-1C_Tile_Metadata")
-        stream.writeTextElement("Tile_Scheme_2A","S2_PDI_Level-2A_Tile_Metadata")
-        stream.writeTextElement("DS_Scheme_1C","S2_PDI_Level-1C_Datastrip_Metadata")
-        stream.writeTextElement("DS_Scheme_2A","S2_PDI_Level-2A_Datastrip_Metadata")
-        stream.writeEndElement() # PSD_Scheme
-
-        stream.writeStartElement("PSD_Scheme")
-        stream.writeAttribute("PSD_Version","14.3")
-        stream.writeAttribute("PSD_Reference","S2-PDGS-TAS-DI-PSD-V14.3_Schema")
-        stream.writeTextElement("UP_Scheme_1C","S2_User_Product_Level-1C_Metadata")
-        stream.writeTextElement("UP_Scheme_2A","S2_User_Product_Level-2A_Metadata")
-        stream.writeTextElement("Tile_Scheme_1C","S2_PDI_Level-1C_Tile_Metadata")
-        stream.writeTextElement("Tile_Scheme_2A","S2_PDI_Level-2A_Tile_Metadata")
-        stream.writeTextElement("DS_Scheme_1C","S2_PDI_Level-1C_Datastrip_Metadata")
-        stream.writeTextElement("DS_Scheme_2A","S2_PDI_Level-2A_Datastrip_Metadata")
-        stream.writeEndElement() # PSD_Scheme
-
-        stream.writeStartElement("PSD_Scheme")
-        stream.writeAttribute("PSD_Version","14.5")
-        stream.writeAttribute("PSD_Reference","S2-PDGS-TAS-DI-PSD-V14.5_Schema")
-        stream.writeTextElement("UP_Scheme_1C","S2_User_Product_Level-1C_Metadata")
-        stream.writeTextElement("UP_Scheme_2A","S2_User_Product_Level-2A_Metadata")
-        stream.writeTextElement("Tile_Scheme_1C","S2_PDI_Level-1C_Tile_Metadata")
-        stream.writeTextElement("Tile_Scheme_2A","S2_PDI_Level-2A_Tile_Metadata")
-        stream.writeTextElement("DS_Scheme_1C","S2_PDI_Level-1C_Datastrip_Metadata")
-        stream.writeTextElement("DS_Scheme_2A","S2_PDI_Level-2A_Datastrip_Metadata")
-        stream.writeEndElement() # PSD_Scheme
-
-        stream.writeEndElement() # Common_Section
-
-        stream.writeStartElement("Scene_Classification")
-        stream.writeStartElement("Filters")
-        stream.writeTextElement("Median_Filter",str(self.dlg.medianFilterSpin.value()))
-        stream.writeEndElement() # Filters
-        stream.writeEndElement() # Scene_Classification
-
-        stream.writeStartElement("Atmospheric_Correction")
-        stream.writeStartElement("Look_Up_Tables")
-        stream.writeTextElement("Aerosol_Type",self.dlg.aerosolCombo.currentText())
-        stream.writeTextElement("Mid_Latitude",self.dlg.midLatCombo.currentText())
-        stream.writeTextElement("Ozone_Content",self.dlg.ozoneCombo.currentText())
-        stream.writeEndElement() # Look_Up_Tables
-        stream.writeEndElement() # Atmospheric_Correction
-
-        stream.writeEndElement() # Level-2A_Ground_Image_Processing_Parameter
-        stream.writeEndDocument()
-        gippFile.close()
 
     def checkInput(self):
         isOk = False
