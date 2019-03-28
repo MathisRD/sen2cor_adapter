@@ -186,58 +186,6 @@ class Sen2CorAdapter:
                 action)
             self.iface.removeToolBarIcon(action)
 
-
-    def toggleCustomSettings(self):
-        """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered"""
-        if self.dlg.gippChooser.filePath() == "":
-            # Enable every custom settings
-            self.dlg.nbProcSpin.setEnabled(True)
-            self.dlg.medianFilterSpin.setEnabled(True)
-            self.dlg.aerosolCombo.setEnabled(True)
-            self.dlg.midLatCombo.setEnabled(True)
-            self.dlg.ozoneCombo.setEnabled(True)
-            self.dlg.wvCorrectionSpin.setEnabled(True)
-            self.dlg.visUpdateSpin.setEnabled(True)
-            self.dlg.wvWatermaskSpin.setEnabled(True)
-            self.dlg.cirrusCorCombo.setEnabled(True)
-            self.dlg.brdfCorCombo.setEnabled(True)
-            self.dlg.brdfLowerForm.setEnabled(True)
-            self.dlg.visibilityForm.setEnabled(True)
-            self.dlg.altitudeForm.setEnabled(True)
-            self.dlg.wvThresCirrusForm.setEnabled(True)
-            self.dlg.demDirForm.setEnabled(True)
-            self.dlg.demRefForm.setEnabled(True)
-            self.dlg.demUnitSpin.setEnabled(True)
-            self.dlg.adjacencyRangeForm.setEnabled(True)
-            self.dlg.smoothWvMapForm.setEnabled(True)
-            self.dlg.generateDemOutCombo.setEnabled(True)
-            self.dlg.generateTciOutCombo.setEnabled(True)
-            self.dlg.generateDdvOutCombo.setEnabled(True)
-        else:
-            # Disable every custom settings
-            self.dlg.nbProcSpin.setEnabled(False)
-            self.dlg.medianFilterSpin.setEnabled(False)
-            self.dlg.aerosolCombo.setEnabled(False)
-            self.dlg.midLatCombo.setEnabled(False)
-            self.dlg.ozoneCombo.setEnabled(False)
-            self.dlg.wvCorrectionSpin.setEnabled(False)
-            self.dlg.visUpdateSpin.setEnabled(False)
-            self.dlg.wvWatermaskSpin.setEnabled(False)
-            self.dlg.cirrusCorCombo.setEnabled(False)
-            self.dlg.brdfCorCombo.setEnabled(False)
-            self.dlg.brdfLowerForm.setEnabled(False)
-            self.dlg.visibilityForm.setEnabled(False)
-            self.dlg.altitudeForm.setEnabled(False)
-            self.dlg.wvThresCirrusForm.setEnabled(False)
-            self.dlg.demDirForm.setEnabled(False)
-            self.dlg.demRefForm.setEnabled(False)
-            self.dlg.demUnitSpin.setEnabled(False)
-            self.dlg.adjacencyRangeForm.setEnabled(False)
-            self.dlg.smoothWvMapForm.setEnabled(False)
-            self.dlg.generateDemOutCombo.setEnabled(False)
-            self.dlg.generateTciOutCombo.setEnabled(False)
-            self.dlg.generateDdvOutCombo.setEnabled(False)
-
     def debugLog(self, message):
         self.dlg.paramsLab.setText(str(message))
 
@@ -412,6 +360,59 @@ class Sen2CorAdapter:
 
     def startProcess(self):
         self.checkInput()
+
+
+    def toggleCustomSettings(self):
+        """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered"""
+        if self.dlg.gippChooser.filePath() == "":
+            # Enable every custom settings
+            self.dlg.nbProcSpin.setEnabled(True)
+            self.dlg.medianFilterSpin.setEnabled(True)
+            self.dlg.aerosolCombo.setEnabled(True)
+            self.dlg.midLatCombo.setEnabled(True)
+            self.dlg.ozoneCombo.setEnabled(True)
+            self.dlg.wvCorrectionSpin.setEnabled(True)
+            self.dlg.visUpdateSpin.setEnabled(True)
+            self.dlg.wvWatermaskSpin.setEnabled(True)
+            self.dlg.cirrusCorCombo.setEnabled(True)
+            self.dlg.brdfCorCombo.setEnabled(True)
+            self.dlg.brdfLowerForm.setEnabled(True)
+            self.dlg.visibilityForm.setEnabled(True)
+            self.dlg.altitudeForm.setEnabled(True)
+            self.dlg.wvThresCirrusForm.setEnabled(True)
+            self.dlg.demDirForm.setEnabled(True)
+            self.dlg.demRefForm.setEnabled(True)
+            self.dlg.demUnitSpin.setEnabled(True)
+            self.dlg.adjacencyRangeForm.setEnabled(True)
+            self.dlg.smoothWvMapForm.setEnabled(True)
+            self.dlg.generateDemOutCombo.setEnabled(True)
+            self.dlg.generateTciOutCombo.setEnabled(True)
+            self.dlg.generateDdvOutCombo.setEnabled(True)
+        else:
+            # Disable every custom settings
+            self.dlg.nbProcSpin.setEnabled(False)
+            self.dlg.medianFilterSpin.setEnabled(False)
+            self.dlg.aerosolCombo.setEnabled(False)
+            self.dlg.midLatCombo.setEnabled(False)
+            self.dlg.ozoneCombo.setEnabled(False)
+            self.dlg.wvCorrectionSpin.setEnabled(False)
+            self.dlg.visUpdateSpin.setEnabled(False)
+            self.dlg.wvWatermaskSpin.setEnabled(False)
+            self.dlg.cirrusCorCombo.setEnabled(False)
+            self.dlg.brdfCorCombo.setEnabled(False)
+            self.dlg.brdfLowerForm.setEnabled(False)
+            self.dlg.visibilityForm.setEnabled(False)
+            self.dlg.altitudeForm.setEnabled(False)
+            self.dlg.wvThresCirrusForm.setEnabled(False)
+            self.dlg.demDirForm.setEnabled(False)
+            self.dlg.demRefForm.setEnabled(False)
+            self.dlg.demUnitSpin.setEnabled(False)
+            self.dlg.adjacencyRangeForm.setEnabled(False)
+            self.dlg.smoothWvMapForm.setEnabled(False)
+            self.dlg.generateDemOutCombo.setEnabled(False)
+            self.dlg.generateTciOutCombo.setEnabled(False)
+            self.dlg.generateDdvOutCombo.setEnabled(False)
+
 
     def run(self):
         """Run method that performs all the real work"""
