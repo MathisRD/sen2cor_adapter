@@ -239,33 +239,48 @@ class Sen2CorAdapter:
         tree.write(customGippPath)
 
 
+    def checkToolFolder(self):
+        isOk = False
+        self.toolPath = self.dlg.toolPathChooser.filePath()
+        if self.toolPath != "":
+            self.toolProcessPath = self.toolPath+"/lib/python2.7/site-packages/sen2cor/L2A_Process.py"
+            if os.path.isfile(self.toolProcessPath):
+                isOk = True
+            else:
+                msgBox = QMessageBox().warning(self.dlg, self.tr("Invalid SEN2COR folder"), self.tr("Invalid SEN2COR folder ! Ensure that you specified the SEN2COR tool folder (contains bin/ lib/ etc.) "))
+        else:
+            msgBox = QMessageBox().warning(self.dlg, self.tr("Missing SEN2COR path"), self.tr("Please specify the SEN2COR tool folder !"))
+
+        return isOk
+
+
     def checkInput(self):
         isOk = False
 
-        if self.dlg.inputChooser.filePath() != "":
-            if self.checkBrdfBounds():
-                if self.checkVisibilityBounds():
-                    if self.checkAltitudeBounds():
-                        if self.checkWvThresBounds():
-                            if self.checkAdjacencyBounds():
-                                if self.checkSmoothWvMapBounds():
-                                    self.writeGipp()
+        if self.checkToolFolder():
+            if self.dlg.inputChooser.filePath() != "":
+                if self.checkBrdfBounds():
+                    if self.checkVisibilityBounds():
+                        if self.checkAltitudeBounds():
+                            if self.checkWvThresBounds():
+                                if self.checkAdjacencyBounds():
+                                    if self.checkSmoothWvMapBounds():
+                                        self.writeGipp()
+                                        isOk = True
+                                    else:
+                                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("SmoothWV map value must be between 0.0 and 300 !"))
                                 else:
-                                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("SmoothWV map value must be between 0.0 and 300 !"))
+                                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Adjacency range value must be between 0.0 and 10 !"))
                             else:
-                                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Adjacency range value must be between 0.0 and 10 !"))
+                                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Wv thres cirrus value must be between 0.1 and 1.0 !"))
                         else:
-                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Wv thres cirrus value must be between 0.1 and 1.0 !"))
+                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Altitude value must be between 0 and 2.5 !"))
                     else:
-                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Altitude value must be between 0 and 2.5 !"))
+                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Visibility value must be between 5 and 120 !"))
                 else:
-                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Visibility value must be between 5 and 120 !"))
+                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Brdf lower bound value must be between 0.1 and 0.25 !"))
             else:
-                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Brdf lower bound value must be between 0.1 and 0.25 !"))
-
-
-        else:
-            msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
+                msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
 
         return isOk
 
@@ -357,9 +372,13 @@ class Sen2CorAdapter:
 
         return isOk
 
+    def runProcess(self):
+        msgBox = QMessageBox().information(self.dlg, self.tr("Process started"), self.tr("Process started !"))
+
 
     def startProcess(self):
-        self.checkInput()
+        if self.checkInput():
+            self.runProcess()
 
 
     def toggleCustomSettings(self):
@@ -426,6 +445,7 @@ class Sen2CorAdapter:
             self.dlg.runButton = QPushButton("Run")
             self.dlg.button_box.addButton(self.dlg.runButton, QDialogButtonBox.ActionRole)
             self.dlg.runButton.clicked.connect(self.startProcess)
+            self.dlg.toolPathChooser.setStorageMode(self.dlg.toolPathChooser.StorageMode.GetDirectory)
             # Config input file chooser to ask for a directory
             self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
             self.dlg.outputChooser.setStorageMode(self.dlg.outputChooser.StorageMode.GetDirectory)
