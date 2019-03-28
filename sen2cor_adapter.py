@@ -441,6 +441,8 @@ class Sen2CorAdapter:
         if self.first_start == True:
             self.first_start = False
             self.dlg = Sen2CorAdapterDialog()
+            self.dlg.tabWidget.setCurrentIndex(0)
+            self.dlg.consoleArea.setReadOnly(True)
             # Add run button in bottom button box
             self.dlg.runButton = QPushButton("Run")
             self.dlg.button_box.addButton(self.dlg.runButton, QDialogButtonBox.ActionRole)
