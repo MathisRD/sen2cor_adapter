@@ -69,7 +69,7 @@
            <item row="10" column="0">
             <widget class="QLabel" name="gippLab">
              <property name="text">
-              <string>L2A_GIPP file :</string>
+              <string>L2A_GIPP (optional) :</string>
              </property>
             </widget>
            </item>
@@ -340,7 +340,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="inputLab">
              <property name="text">
-              <string>Input (.SAFE folder)</string>
+              <string>Input (.SAFE folder) :</string>
              </property>
             </widget>
            </item>
@@ -401,7 +401,7 @@
               <string>Output directory of the L2A product. If left blank, L2A will be store in the input root folder.</string>
              </property>
              <property name="text">
-              <string>Output (optional)</string>
+              <string>Output (optional) :</string>
              </property>
             </widget>
            </item>
@@ -492,7 +492,7 @@
               <string>SEN2COR home folder</string>
              </property>
              <property name="text">
-              <string>SEN2COR tool path</string>
+              <string>SEN2COR tool path :</string>
              </property>
             </widget>
            </item>

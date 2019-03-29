@@ -241,7 +241,6 @@ class Sen2CorAdapter:
 
     def checkToolFolder(self):
         isOk = False
-        self.toolPath = self.dlg.toolPathChooser.filePath()
         if self.toolPath != "":
             self.toolProcessPath = self.toolPath+"/lib/python2.7/site-packages/sen2cor/L2A_Process.py"
             if os.path.isfile(self.toolProcessPath):
@@ -375,7 +374,8 @@ class Sen2CorAdapter:
     def logProcessOutput(self):
         cursor = self.dlg.consoleArea.textCursor()
         cursor.movePosition(cursor.End)
-        cursor.insertText(str(self.process.readAll(), encoding='utf-8'))
+        cursor.insertText(str(self.process.readAllStandardOutput(), encoding='utf-8'))
+        cursor.insertText(str(self.process.readAllStandardError(), encoding='utf-8'))
         self.dlg.consoleArea.ensureCursorVisible()
 
     def disableRunButton(self):
@@ -390,8 +390,37 @@ class Sen2CorAdapter:
         self.dlg.scrollArea.setEnabled(True)
 
     def runProcess(self):
-        # msgBox = QMessageBox().information(self.dlg, self.tr("Process started"), self.tr("Process started !"))
-        self.process.start('ping',['127.0.0.1'])
+        # self.process.start('ping',['127.0.0.1'])
+        # command = self.toolPath+"/bin/python2.7"
+        command = "bash"
+        script = self.toolPath+"/bin/L2A_Process"
+        commandParams = [script]
+        resolution = "--resolution"
+        commandParams.append(resolution)
+        resolutionValue = self.dlg.resCombo.currentText()
+        commandParams.append(resolutionValue)
+        if self.dlg.scCheck.isChecked():
+            commandParams.append("--sc_only")
+        if self.dlg.crCheck.isChecked():
+            commandParams.append("--cr_only")
+
+        gippL2A = "--GIP_L2A"
+        commandParams.append(gippL2A)
+
+        if self.dlg.gippChooser.filePath() == "":
+            gippL2APath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
+            # gippL2APath = self.toolPath+"/lib/python2.7/site-packages/sen2cor/cfg/L2A_GIPP.xml"
+            commandParams.append(gippL2APath)
+        else:
+            gippL2APath = self.dlg.gippChooser.filePath()
+            commandParams.append(gippL2APath)
+
+        commandParams.append(self.dlg.inputChooser.filePath())
+
+        #QMessageBox().information(self.dlg, self.tr("params"), str(commandParams))
+
+
+        self.process.start(command,commandParams)
 
 
     def startProcess(self):
@@ -406,7 +435,8 @@ class Sen2CorAdapter:
 
     def saveToolPath(self):
         tmpFile = open(self.tmpToolPath, "w")
-        tmpFile.write(self.dlg.toolPathChooser.filePath())
+        self.toolPath = self.dlg.toolPathChooser.filePath()
+        tmpFile.write(self.toolPath)
         tmpFile.close()
 
     def toggleCustomSettings(self):
