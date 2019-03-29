@@ -21,7 +21,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QXmlStreamWriter, QFile
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QXmlStreamWriter, QFile, QProcess
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QDialogButtonBox, QPushButton, QErrorMessage, QMessageBox
 from qgis.gui import *
@@ -372,13 +372,41 @@ class Sen2CorAdapter:
 
         return isOk
 
+    def logProcessOutput(self):
+        cursor = self.dlg.consoleArea.textCursor()
+        cursor.movePosition(cursor.End)
+        cursor.insertText(str(self.process.readAll(), encoding='utf-8'))
+        self.dlg.consoleArea.ensureCursorVisible()
+
+    def disableRunButton(self):
+        self.dlg.runButton.setEnabled(False)
+        self.dlg.stopButton.setEnabled(True)
+        self.dlg.scrollArea.setEnabled(False)
+        self.dlg.tabWidget.setCurrentIndex(1)
+
+    def enableRunButton(self):
+        self.dlg.runButton.setEnabled(True)
+        self.dlg.stopButton.setEnabled(False)
+        self.dlg.scrollArea.setEnabled(True)
+
     def runProcess(self):
-        msgBox = QMessageBox().information(self.dlg, self.tr("Process started"), self.tr("Process started !"))
+        # msgBox = QMessageBox().information(self.dlg, self.tr("Process started"), self.tr("Process started !"))
+        self.process.start('ping',['127.0.0.1'])
 
 
     def startProcess(self):
         if self.checkInput():
             self.runProcess()
+
+
+    def stopProcess(self):
+        result = QMessageBox().question(self.dlg, self.tr("Kill process ?"), self.tr("Are you sure that you want to kill SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
+        if result == QMessageBox.Yes:
+            self.dlg.paramsLab.setText("Yes")
+            self.process.kill()
+        else:
+            self.dlg.paramsLab.setText("No")
+
 
 
     def toggleCustomSettings(self):
@@ -445,8 +473,12 @@ class Sen2CorAdapter:
             self.dlg.consoleArea.setReadOnly(True)
             # Add run button in bottom button box
             self.dlg.runButton = QPushButton("Run")
+            self.dlg.stopButton = QPushButton("Stop")
+            self.dlg.stopButton.setEnabled(False)
             self.dlg.button_box.addButton(self.dlg.runButton, QDialogButtonBox.ActionRole)
+            self.dlg.button_box.addButton(self.dlg.stopButton, QDialogButtonBox.ActionRole)
             self.dlg.runButton.clicked.connect(self.startProcess)
+            self.dlg.stopButton.clicked.connect(self.stopProcess)
             self.dlg.toolPathChooser.setStorageMode(self.dlg.toolPathChooser.StorageMode.GetDirectory)
             # Config input file chooser to ask for a directory
             self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
@@ -468,6 +500,12 @@ class Sen2CorAdapter:
             self.dlg.generateDemOutCombo.addItems(["TRUE","FALSE"])
             self.dlg.generateTciOutCombo.addItems(["TRUE","FALSE"])
             self.dlg.generateDdvOutCombo.addItems(["TRUE","FALSE"])
+            # QProcess object for external app
+            self.process = QProcess()
+            # QProcess emits `readyRead` when there is data to be read
+            self.process.readyRead.connect(self.logProcessOutput)
+            self.process.started.connect(self.disableRunButton)
+            self.process.finished.connect(self.enableRunButton)
 
 
         #MAIN CODE
