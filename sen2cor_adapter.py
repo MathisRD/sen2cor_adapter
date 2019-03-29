@@ -402,12 +402,12 @@ class Sen2CorAdapter:
     def stopProcess(self):
         result = QMessageBox().question(self.dlg, self.tr("Kill process ?"), self.tr("Are you sure that you want to kill SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
-            self.dlg.paramsLab.setText("Yes")
             self.process.kill()
-        else:
-            self.dlg.paramsLab.setText("No")
 
-
+    def saveToolPath(self):
+        tmpFile = open(self.tmpToolPath, "w")
+        tmpFile.write(self.dlg.toolPathChooser.filePath())
+        tmpFile.close()
 
     def toggleCustomSettings(self):
         """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered"""
@@ -468,9 +468,13 @@ class Sen2CorAdapter:
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if self.first_start == True:
             self.first_start = False
+
+            self.tmpToolPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/lastToolPath.tmp"
+
             self.dlg = Sen2CorAdapterDialog()
             self.dlg.tabWidget.setCurrentIndex(0)
             self.dlg.consoleArea.setReadOnly(True)
+
             # Add run button in bottom button box
             self.dlg.runButton = QPushButton("Run")
             self.dlg.stopButton = QPushButton("Stop")
@@ -479,7 +483,10 @@ class Sen2CorAdapter:
             self.dlg.button_box.addButton(self.dlg.stopButton, QDialogButtonBox.ActionRole)
             self.dlg.runButton.clicked.connect(self.startProcess)
             self.dlg.stopButton.clicked.connect(self.stopProcess)
+
             self.dlg.toolPathChooser.setStorageMode(self.dlg.toolPathChooser.StorageMode.GetDirectory)
+            self.dlg.toolPathChooser.fileChanged.connect(self.saveToolPath)
+
             # Config input file chooser to ask for a directory
             self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
             self.dlg.outputChooser.setStorageMode(self.dlg.outputChooser.StorageMode.GetDirectory)
@@ -509,6 +516,11 @@ class Sen2CorAdapter:
 
 
         #MAIN CODE
+
+        if os.path.isfile(self.tmpToolPath):
+            tmpFile = open(self.tmpToolPath, "r")
+            self.dlg.toolPathChooser.setFilePath(tmpFile.readline())
+            tmpFile.close()
 
         # Initialize default values
         self.dlg.scCheck.setChecked(False)
