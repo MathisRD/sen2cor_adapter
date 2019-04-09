@@ -429,9 +429,28 @@ class Sen2CorAdapter:
 
 
     def stopProcess(self):
-        result = QMessageBox().question(self.dlg, self.tr("Kill process ?"), self.tr("Are you sure that you want to kill SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
+        messageTitle = "Kill process " + str(self.process.processId()) + " ?"
+        result = QMessageBox().question(self.dlg, self.tr(messageTitle), self.tr("Are you sure that you want to kill SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
-            self.process.kill()
+            childIds = []
+            getChild = QProcess()
+            parentPid = str(self.process.processId())
+            getChild.start("ps",["--ppid",parentPid,"-o","pid","--no-heading"])
+            getChild.waitForFinished(5000)
+            lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
+            lastChildFound = lastChildFound.replace('\n','')
+
+            if len(lastChildFound) >= 1:
+                while len(lastChildFound) >= 1:
+                    childIds.append(lastChildFound)
+                    getChild.start("ps",["--ppid",lastChildFound,"-o","pid","--no-heading"])
+                    getChild.waitForFinished(5000)
+                    lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
+                    lastChildFound = lastChildFound.replace('\n','')
+                QProcess.execute("kill",childIds)
+                #QMessageBox().information(self.dlg, self.tr("childs"), str(childIds))
+            else:
+                self.process.terminate()
 
     def saveToolPath(self):
         tmpFile = open(self.tmpToolPath, "w")
