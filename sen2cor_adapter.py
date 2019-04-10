@@ -439,6 +439,7 @@ class Sen2CorAdapter:
             getChild.waitForFinished(5000)
             lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
             lastChildFound = lastChildFound.replace('\n','')
+            lastChildFound = lastChildFound.replace(' ','')
 
             if len(lastChildFound) >= 1:
                 while len(lastChildFound) >= 1:
@@ -447,8 +448,8 @@ class Sen2CorAdapter:
                     getChild.waitForFinished(5000)
                     lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
                     lastChildFound = lastChildFound.replace('\n','')
+                    lastChildFound = lastChildFound.replace(' ','')
                 QProcess.execute("kill",childIds)
-                #QMessageBox().information(self.dlg, self.tr("childs"), str(childIds))
             else:
                 self.process.terminate()
 
