@@ -429,8 +429,7 @@ class Sen2CorAdapter:
 
 
     def stopProcess(self):
-        messageTitle = "Kill process " + str(self.process.processId()) + " ?"
-        result = QMessageBox().question(self.dlg, self.tr(messageTitle), self.tr("Are you sure that you want to kill SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
+        result = QMessageBox().question(self.dlg, self.tr("Stop process ?"), self.tr("Are you sure that you want to stop SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
             childIds = []
             getChild = QProcess()
@@ -549,8 +548,8 @@ class Sen2CorAdapter:
             # Config L2A_GIPP file chooser to ask for a file
             self.dlg.gippChooser.setStorageMode(self.dlg.gippChooser.StorageMode.GetFile)
             # Adding values for each combo
-            self.dlg.aerosolCombo.addItems(["RURAL","MARITIME","AUTO"])
-            self.dlg.midLatCombo.addItems(["SUMMER","WINTER","AUTO"])
+            self.dlg.aerosolCombo.addItems(["RURAL","MARITIME"])
+            self.dlg.midLatCombo.addItems(["SUMMER","WINTER"])
             self.dlg.ozoneCombo.addItems(["0","250","290","330","331","370","377","410","420","450","460"])
             self.dlg.cirrusCorCombo.addItems(["TRUE","FALSE"])
             self.dlg.brdfCorCombo.addItems(["0","1","2","11","12","22","21"])
@@ -576,8 +575,8 @@ class Sen2CorAdapter:
         self.dlg.scCheck.setChecked(False)
         self.dlg.crCheck.setChecked(False)
         self.dlg.resCombo.setCurrentIndex(2)
-        self.dlg.aerosolCombo.setCurrentIndex(2)
-        self.dlg.midLatCombo.setCurrentIndex(2)
+        self.dlg.aerosolCombo.setCurrentIndex(0)
+        self.dlg.midLatCombo.setCurrentIndex(0)
         self.dlg.ozoneCombo.setCurrentIndex(0)
         self.dlg.cirrusCorCombo.setCurrentIndex(1)
         self.dlg.brdfCorCombo.setCurrentIndex(0)
