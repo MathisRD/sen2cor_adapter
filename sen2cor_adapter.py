@@ -256,34 +256,46 @@ class Sen2CorAdapter:
 
         return isOk
 
+    def checkGippFile(self):
+        isOk = False
+        if self.dlg.gippChooser.filePath() != "":
+            if os.path.isfile(self.dlg.gippChooser.filePath()):
+                isOk = True
+            else:
+                msgBox = QMessageBox().warning(self.dlg, self.tr("L2A_GIPP file not found"), self.tr("Unable to find specified L2A_GIPP file"))
+        else:
+            isOk = True
+        return isOk
+
 
     def checkInput(self):
         isOk = False
 
         if self.checkToolFolder():
-            if self.dlg.inputChooser.filePath() != "":
-                if self.checkBrdfBounds():
-                    if self.checkVisibilityBounds():
-                        if self.checkAltitudeBounds():
-                            if self.checkWvThresBounds():
-                                if self.checkAdjacencyBounds():
-                                    if self.checkSmoothWvMapBounds():
-                                        self.writeGipp()
-                                        isOk = True
+            if self.checkGippFile():
+                if self.dlg.inputChooser.filePath() != "":
+                    if self.checkBrdfBounds():
+                        if self.checkVisibilityBounds():
+                            if self.checkAltitudeBounds():
+                                if self.checkWvThresBounds():
+                                    if self.checkAdjacencyBounds():
+                                        if self.checkSmoothWvMapBounds():
+                                            self.writeGipp()
+                                            isOk = True
+                                        else:
+                                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("SmoothWV map value must be between 0.0 and 300 !"))
                                     else:
-                                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("SmoothWV map value must be between 0.0 and 300 !"))
+                                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Adjacency range value must be between 0.0 and 10 !"))
                                 else:
-                                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Adjacency range value must be between 0.0 and 10 !"))
+                                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Wv thres cirrus value must be between 0.1 and 1.0 !"))
                             else:
-                                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Wv thres cirrus value must be between 0.1 and 1.0 !"))
+                                msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Altitude value must be between 0 and 2.5 !"))
                         else:
-                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Altitude value must be between 0 and 2.5 !"))
+                            msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Visibility value must be between 5 and 120 !"))
                     else:
-                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Visibility value must be between 5 and 120 !"))
+                        msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Brdf lower bound value must be between 0.1 and 0.25 !"))
                 else:
-                    msgBox = QMessageBox().warning(self.dlg, self.tr("Bad parameter value"), self.tr("Brdf lower bound value must be between 0.1 and 0.25 !"))
-            else:
-                msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
+                    msgBox = QMessageBox().warning(self.dlg, self.tr("Missing input"), self.tr("Please select a .SAFE input folder !"))
 
         return isOk
 
