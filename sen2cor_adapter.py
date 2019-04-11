@@ -33,6 +33,7 @@ from .resources import *
 from .sen2cor_adapter_dialog import Sen2CorAdapterDialog
 
 import os.path
+import platform
 import multiprocessing
 import xml.etree.ElementTree as ET
 
@@ -242,7 +243,10 @@ class Sen2CorAdapter:
     def checkToolFolder(self):
         isOk = False
         if self.toolPath != "":
-            self.toolProcessPath = self.toolPath+"/lib/python2.7/site-packages/sen2cor/L2A_Process.py"
+            if platform.system() == "Windows":
+                self.toolProcessPath = self.toolPath+"\\L2A_Process.bat"
+            else:
+                self.toolProcessPath = self.toolPath+"/bin/L2A_Process"
             if os.path.isfile(self.toolProcessPath):
                 isOk = True
             else:
@@ -389,27 +393,56 @@ class Sen2CorAdapter:
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
 
+    def stopProcess(self):
+        result = QMessageBox().question(self.dlg, self.tr("Stop process ?"), self.tr("Are you sure that you want to stop SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
+        if result == QMessageBox.Yes:
+            if platform.system() == "Linux":
+                childIds = []
+                getChild = QProcess()
+                parentPid = str(self.process.processId())
+                getChild.start("ps",["--ppid",parentPid,"-o","pid","--no-heading"])
+                getChild.waitForFinished(5000)
+                lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
+                lastChildFound = lastChildFound.replace('\n','')
+                lastChildFound = lastChildFound.replace(' ','')
+
+                if len(lastChildFound) >= 1:
+                    while len(lastChildFound) >= 1:
+                        childIds.append(lastChildFound)
+                        getChild.start("ps",["--ppid",lastChildFound,"-o","pid","--no-heading"])
+                        getChild.waitForFinished(5000)
+                        lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
+                        lastChildFound = lastChildFound.replace('\n','')
+                        lastChildFound = lastChildFound.replace(' ','')
+                    QProcess.execute("kill",childIds)
+                else:
+                    self.process.terminate()
+            elif platform.system() == "Windows":
+                QProcess.execute("cmd",["/c","taskkill","/PID",str(self.process.processId()),"/T","/F"])
+
     def runProcess(self):
-        # self.process.start('ping',['127.0.0.1'])
-        # command = self.toolPath+"/bin/python2.7"
-        command = "bash"
-        script = self.toolPath+"/bin/L2A_Process"
-        commandParams = [script]
-        resolution = "--resolution"
-        commandParams.append(resolution)
-        resolutionValue = self.dlg.resCombo.currentText()
-        commandParams.append(resolutionValue)
+        commandParams = []
+        if platform.system() == "Windows":
+            command = "cmd"
+            commandParams.append("/c")
+            script = self.toolPath+"\\L2A_Process.bat"
+        else:
+            command = "bash"
+            script = self.toolPath+"/bin/L2A_Process"
+        commandParams.append(script)
+        commandParams.append("--resolution")
+        commandParams.append(str(self.dlg.resCombo.currentText()))
         if self.dlg.scCheck.isChecked():
             commandParams.append("--sc_only")
         if self.dlg.crCheck.isChecked():
             commandParams.append("--cr_only")
-
-        gippL2A = "--GIP_L2A"
-        commandParams.append(gippL2A)
+        commandParams.append("--GIP_L2A")
 
         if self.dlg.gippChooser.filePath() == "":
-            gippL2APath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
-            # gippL2APath = self.toolPath+"/lib/python2.7/site-packages/sen2cor/cfg/L2A_GIPP.xml"
+            if platform.system() == "Windows":
+                gippL2APath = os.path.dirname(os.path.realpath(__file__))+"\\tmp\\L2A_GIPP_Custom.xml"
+            else:
+                gippL2APath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
             commandParams.append(gippL2APath)
         else:
             gippL2APath = self.dlg.gippChooser.filePath()
@@ -417,40 +450,11 @@ class Sen2CorAdapter:
 
         commandParams.append(self.dlg.inputChooser.filePath())
 
-        #QMessageBox().information(self.dlg, self.tr("params"), str(commandParams))
-
-
         self.process.start(command,commandParams)
-
 
     def startProcess(self):
         if self.checkInput():
             self.runProcess()
-
-
-    def stopProcess(self):
-        result = QMessageBox().question(self.dlg, self.tr("Stop process ?"), self.tr("Are you sure that you want to stop SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
-        if result == QMessageBox.Yes:
-            childIds = []
-            getChild = QProcess()
-            parentPid = str(self.process.processId())
-            getChild.start("ps",["--ppid",parentPid,"-o","pid","--no-heading"])
-            getChild.waitForFinished(5000)
-            lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
-            lastChildFound = lastChildFound.replace('\n','')
-            lastChildFound = lastChildFound.replace(' ','')
-
-            if len(lastChildFound) >= 1:
-                while len(lastChildFound) >= 1:
-                    childIds.append(lastChildFound)
-                    getChild.start("ps",["--ppid",lastChildFound,"-o","pid","--no-heading"])
-                    getChild.waitForFinished(5000)
-                    lastChildFound = str(getChild.readAllStandardOutput(), encoding='utf-8')
-                    lastChildFound = lastChildFound.replace('\n','')
-                    lastChildFound = lastChildFound.replace(' ','')
-                QProcess.execute("kill",childIds)
-            else:
-                self.process.terminate()
 
     def saveToolPath(self):
         tmpFile = open(self.tmpToolPath, "w")
