@@ -187,9 +187,6 @@ class Sen2CorAdapter:
                 action)
             self.iface.removeToolBarIcon(action)
 
-    def debugLog(self, message):
-        self.dlg.paramsLab.setText(str(message))
-
     def writeGipp(self):
         # Saving L2A-GIPP template and output path
         templateGippPath = os.path.dirname(os.path.realpath(__file__))+"/L2A_GIPP_Template.xml"
