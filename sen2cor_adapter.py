@@ -188,6 +188,7 @@ class Sen2CorAdapter:
             self.iface.removeToolBarIcon(action)
 
     def writeGipp(self):
+        """Creates a custom L2A_GIPP.xml file, using the values entered by the user in the GUI"""
         # Saving L2A-GIPP template and output path
         templateGippPath = os.path.dirname(os.path.realpath(__file__))+"/L2A_GIPP_Template.xml"
         customGippPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
@@ -238,6 +239,9 @@ class Sen2CorAdapter:
 
 
     def checkToolFolder(self):
+        """Checks if the tool folder path specified by the user contains sen2cor executable
+            :returns: True if the folder contains sen2cor executable
+        """
         isOk = False
         if self.toolPath != "":
             if platform.system() == "Windows":
@@ -254,6 +258,9 @@ class Sen2CorAdapter:
         return isOk
 
     def checkGippFile(self):
+        """Checks if the L2A_GIPP file specified by the user exists
+            :returns: True if the file exists
+        """
         isOk = False
         if self.dlg.gippChooser.filePath() != "":
             if os.path.isfile(self.dlg.gippChooser.filePath()):
@@ -266,6 +273,9 @@ class Sen2CorAdapter:
 
 
     def checkInput(self):
+        """Checks if path inputs are ok, and if the parameters entered by the user are respecting the values specified in the SEN2COR documentation
+            :returns: True if all entered values are valid.
+        """
         isOk = False
 
         if self.checkToolFolder():
@@ -298,6 +308,9 @@ class Sen2CorAdapter:
 
 
     def checkBrdfBounds(self):
+        """Checks if the brdf lower bound value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 0.1
         maxBound = 0.25
@@ -313,6 +326,9 @@ class Sen2CorAdapter:
 
 
     def checkVisibilityBounds(self):
+        """Checks if the visibility value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 5.0
         maxBound = 120.0
@@ -328,6 +344,9 @@ class Sen2CorAdapter:
 
 
     def checkAltitudeBounds(self):
+        """Checks if the altitude value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 0.0
         maxBound = 2.5
@@ -343,6 +362,9 @@ class Sen2CorAdapter:
 
 
     def checkWvThresBounds(self):
+        """Checks if the WV_Threshold_Cirrus value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 0.1
         maxBound = 1.0
@@ -357,6 +379,9 @@ class Sen2CorAdapter:
         return isOk
 
     def checkAdjacencyBounds(self):
+        """Checks if the adjacency range value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 0.0
         maxBound = 10.0
@@ -371,6 +396,9 @@ class Sen2CorAdapter:
         return isOk
 
     def checkSmoothWvMapBounds(self):
+        """Checks if the smoothWvMap value entered by the user is valid
+            :returns: True if the value is valid
+        """
         isOk = True
         minBound = 0.0
         maxBound = 300.0
@@ -385,6 +413,7 @@ class Sen2CorAdapter:
         return isOk
 
     def logProcessOutput(self):
+        """Displays sen2cor process output in the log text area"""
         cursor = self.dlg.consoleArea.textCursor()
         cursor.movePosition(cursor.End)
         cursor.insertText(str(self.process.readAllStandardOutput(), encoding='utf-8'))
@@ -392,20 +421,29 @@ class Sen2CorAdapter:
         self.dlg.consoleArea.ensureCursorVisible()
 
     def disableRunButton(self):
+        """Called when sen2cor processing starts. Disables run button, enables stop button and shows the log text area"""
         self.dlg.runButton.setEnabled(False)
         self.dlg.stopButton.setEnabled(True)
         self.dlg.scrollArea.setEnabled(False)
         self.dlg.tabWidget.setCurrentIndex(1)
 
     def enableRunButton(self):
+        """Called when sen2cor processing ends. Disables stop button and enables stop button"""
         self.dlg.runButton.setEnabled(True)
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
 
     def stopProcess(self):
+        """Called by pressing stop button. Kills sen2cor running process"""
+        # Ask for confirmation
         result = QMessageBox().question(self.dlg, self.tr("Stop process ?"), self.tr("Are you sure that you want to stop SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
-            if platform.system() == "Linux":
+            if platform.system() == "Windows":
+                # If we are on Windows, there is a way to kill all subprocesses in one command (using /T param)
+                QProcess.execute("cmd",["/c","taskkill","/PID",str(self.process.processId()),"/T","/F"])
+            else:
+                # If we are on Linux, we have to retrieve all subprocesses PIDs, so as to kill them.
+                # Because SEN2COR creates its own child processes, we don't know their PIDs without retrieving them using ps command.
                 childIds = []
                 getChild = QProcess()
                 parentPid = str(self.process.processId())
@@ -416,6 +454,7 @@ class Sen2CorAdapter:
                 lastChildFound = lastChildFound.replace(' ','')
 
                 if len(lastChildFound) >= 1:
+                    # Iterate until the last child process found hasn't any subprocess
                     while len(lastChildFound) >= 1:
                         childIds.append(lastChildFound)
                         getChild.start("ps",["--ppid",lastChildFound,"-o","pid","--no-heading"])
@@ -426,10 +465,9 @@ class Sen2CorAdapter:
                     QProcess.execute("kill",childIds)
                 else:
                     self.process.terminate()
-            elif platform.system() == "Windows":
-                QProcess.execute("cmd",["/c","taskkill","/PID",str(self.process.processId()),"/T","/F"])
 
     def runProcess(self):
+        """Starts the SEN2COR processing, by calling SEN2COR executable in a subprocess, with the required params (i.e resolution or L2A_GIPP.xml file path)"""
         commandParams = []
         if platform.system() == "Windows":
             command = "cmd"
