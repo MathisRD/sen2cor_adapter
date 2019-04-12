@@ -188,7 +188,7 @@ class Sen2CorAdapter:
             self.iface.removeToolBarIcon(action)
 
     def writeGipp(self):
-        """Creates a custom L2A_GIPP.xml file, using the values entered by the user in the GUI"""
+        """Creates a custom L2A_GIPP.xml file, using the values entered by the user in the GUI."""
         # Saving L2A-GIPP template and output path
         templateGippPath = os.path.dirname(os.path.realpath(__file__))+"/L2A_GIPP_Template.xml"
         customGippPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
@@ -234,13 +234,13 @@ class Sen2CorAdapter:
         root.find("./Atmospheric_Correction/Calibration/Smooth_WV_Map").text = self.dlg.smoothWvMapForm.text()
         root.find("./Atmospheric_Correction/Calibration/WV_Threshold_Cirrus").text = self.dlg.wvThresCirrusForm.text()
 
-        # Write custom setting in new custom L2A_GIPP.xml file
+        # Writing custom settings in new custom L2A_GIPP.xml file
         tree.write(customGippPath)
 
 
     def checkToolFolder(self):
-        """Checks if the tool folder path specified by the user contains sen2cor executable
-            :returns: True if the folder contains sen2cor executable
+        """Checks if the tool folder path specified by the user contains sen2cor executable.
+            :returns: True if the folder contains sen2cor executable.
         """
         isOk = False
         if self.toolPath != "":
@@ -248,18 +248,20 @@ class Sen2CorAdapter:
                 self.toolProcessPath = self.toolPath+"\\L2A_Process.bat"
             else:
                 self.toolProcessPath = self.toolPath+"/bin/L2A_Process"
+
             if os.path.isfile(self.toolProcessPath):
                 isOk = True
             else:
                 msgBox = QMessageBox().warning(self.dlg, self.tr("Invalid SEN2COR folder"), self.tr("Invalid SEN2COR folder ! Ensure that you specified the SEN2COR tool folder (contains bin/ lib/ etc.) "))
+
         else:
             msgBox = QMessageBox().warning(self.dlg, self.tr("Missing SEN2COR path"), self.tr("Please specify the SEN2COR tool folder !"))
 
         return isOk
 
     def checkGippFile(self):
-        """Checks if the L2A_GIPP file specified by the user exists
-            :returns: True if the file exists
+        """Checks if the L2A_GIPP file specified by the user exists.
+            :returns: True if the file exists.
         """
         isOk = False
         if self.dlg.gippChooser.filePath() != "":
@@ -267,13 +269,15 @@ class Sen2CorAdapter:
                 isOk = True
             else:
                 msgBox = QMessageBox().warning(self.dlg, self.tr("L2A_GIPP file not found"), self.tr("Unable to find specified L2A_GIPP file"))
+
         else:
             isOk = True
+
         return isOk
 
 
     def checkInput(self):
-        """Checks if path inputs are ok, and if the parameters entered by the user are respecting the values specified in the SEN2COR documentation
+        """Checks if path inputs are valid, and if the parameters entered by the user are respecting the values specified in the SEN2COR documentation.
             :returns: True if all entered values are valid.
         """
         isOk = False
@@ -308,8 +312,8 @@ class Sen2CorAdapter:
 
 
     def checkBrdfBounds(self):
-        """Checks if the brdf lower bound value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the brdf lower bound value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 0.1
@@ -326,8 +330,8 @@ class Sen2CorAdapter:
 
 
     def checkVisibilityBounds(self):
-        """Checks if the visibility value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the visibility value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 5.0
@@ -344,8 +348,8 @@ class Sen2CorAdapter:
 
 
     def checkAltitudeBounds(self):
-        """Checks if the altitude value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the altitude value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 0.0
@@ -362,8 +366,8 @@ class Sen2CorAdapter:
 
 
     def checkWvThresBounds(self):
-        """Checks if the WV_Threshold_Cirrus value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the WV_Threshold_Cirrus value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 0.1
@@ -379,8 +383,8 @@ class Sen2CorAdapter:
         return isOk
 
     def checkAdjacencyBounds(self):
-        """Checks if the adjacency range value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the adjacency range value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 0.0
@@ -396,8 +400,8 @@ class Sen2CorAdapter:
         return isOk
 
     def checkSmoothWvMapBounds(self):
-        """Checks if the smoothWvMap value entered by the user is valid
-            :returns: True if the value is valid
+        """Checks if the smoothWvMap value entered by the user is valid.
+            :returns: True if the value is valid.
         """
         isOk = True
         minBound = 0.0
@@ -413,7 +417,7 @@ class Sen2CorAdapter:
         return isOk
 
     def logProcessOutput(self):
-        """Displays sen2cor process output in the log text area"""
+        """Displays sen2cor process output in the log text area."""
         cursor = self.dlg.consoleArea.textCursor()
         cursor.movePosition(cursor.End)
         cursor.insertText(str(self.process.readAllStandardOutput(), encoding='utf-8'))
@@ -421,21 +425,21 @@ class Sen2CorAdapter:
         self.dlg.consoleArea.ensureCursorVisible()
 
     def disableRunButton(self):
-        """Called when sen2cor processing starts. Disables run button, enables stop button and shows the log text area"""
+        """Called when sen2cor processing starts. Disables run button, enables stop button and shows the log text area."""
         self.dlg.runButton.setEnabled(False)
         self.dlg.stopButton.setEnabled(True)
         self.dlg.scrollArea.setEnabled(False)
         self.dlg.tabWidget.setCurrentIndex(1)
 
     def enableRunButton(self):
-        """Called when sen2cor processing ends. Disables stop button and enables stop button"""
+        """Called when sen2cor processing ends. Disables stop button and enables stop button."""
         self.dlg.runButton.setEnabled(True)
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
 
     def stopProcess(self):
-        """Called by pressing stop button. Kills sen2cor running process"""
-        # Ask for confirmation
+        """Called by pressing stop button. Kills sen2cor running process."""
+        # Asking for confirmation
         result = QMessageBox().question(self.dlg, self.tr("Stop process ?"), self.tr("Are you sure that you want to stop SEN2COR process ?"), QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
             if platform.system() == "Windows":
@@ -467,8 +471,10 @@ class Sen2CorAdapter:
                     self.process.terminate()
 
     def runProcess(self):
-        """Starts the SEN2COR processing, by calling SEN2COR executable in a subprocess, with the required params (i.e resolution or L2A_GIPP.xml file path)"""
+        """Starts the SEN2COR processing, by calling SEN2COR executable in a subprocess, with the required params (i.e resolution or L2A_GIPP.xml file path)."""
+        # String array, in which all command params will be stored.
         commandParams = []
+
         if platform.system() == "Windows":
             command = "cmd"
             commandParams.append("/c")
@@ -476,43 +482,58 @@ class Sen2CorAdapter:
         else:
             command = "bash"
             script = self.toolPath+"/bin/L2A_Process"
+
+        # Adds sen2cor executable as param
         commandParams.append(script)
+        # Adds resolution value as param
         commandParams.append("--resolution")
         commandParams.append(str(self.dlg.resCombo.currentText()))
+
         if self.dlg.scCheck.isChecked():
             commandParams.append("--sc_only")
+
         if self.dlg.crCheck.isChecked():
             commandParams.append("--cr_only")
-        commandParams.append("--GIP_L2A")
 
+        # Adds L2A_GIPP.xml file as param
+        commandParams.append("--GIP_L2A")
+        # If no L2A_GIPP.xml file is specified by the user, uses the automatically generated one with the parameters entered in the form.
         if self.dlg.gippChooser.filePath() == "":
             if platform.system() == "Windows":
                 gippL2APath = os.path.dirname(os.path.realpath(__file__))+"\\tmp\\L2A_GIPP_Custom.xml"
             else:
                 gippL2APath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
+
             commandParams.append(gippL2APath)
+        # Otherwise, gives the L2A_GIPP.xml file specified by the user directly to sen2cor.
         else:
             gippL2APath = self.dlg.gippChooser.filePath()
             commandParams.append(gippL2APath)
 
+        # Last param is the .SAFE folder path, which is the Sentinel-2 product to be processed.
         commandParams.append(self.dlg.inputChooser.filePath())
 
+        # Finally, starts the process with the command (cmd or bash) and its params stored in the commandParams array.
+        # It calls the sen2cor executable given in params using cmd or bash.
         self.process.start(command,commandParams)
 
     def startProcess(self):
+        """Called when start button is pressed. Checks if all user inputs are valid, then starts the sen2cor process."""
         if self.checkInput():
             self.runProcess()
 
     def saveToolPath(self):
+        """Stores the last sen2cor tool path entered by the user in a temporary file."""
         tmpFile = open(self.tmpToolPath, "w")
         self.toolPath = self.dlg.toolPathChooser.filePath()
         tmpFile.write(self.toolPath)
         tmpFile.close()
 
     def toggleCustomSettings(self):
-        """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered"""
+        """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered.
+            Otherwise, it disables the input form if a L2A_GIPP file has been entered."""
         if self.dlg.gippChooser.filePath() == "":
-            # Enable every custom settings
+            # Enables every custom settings.
             self.dlg.nbProcSpin.setEnabled(True)
             self.dlg.medianFilterSpin.setEnabled(True)
             self.dlg.aerosolCombo.setEnabled(True)
@@ -536,7 +557,7 @@ class Sen2CorAdapter:
             self.dlg.generateTciOutCombo.setEnabled(True)
             self.dlg.generateDdvOutCombo.setEnabled(True)
         else:
-            # Disable every custom settings
+            # Disables every custom settings.
             self.dlg.nbProcSpin.setEnabled(False)
             self.dlg.medianFilterSpin.setEnabled(False)
             self.dlg.aerosolCombo.setEnabled(False)
@@ -562,20 +583,19 @@ class Sen2CorAdapter:
 
 
     def run(self):
-        """Run method that performs all the real work"""
+        """Run method called each time the plugin is opened in QGIS."""
 
-        # Create the dialog with elements (after translation) and keep reference
-        # Only create GUI ONCE in callback, so that it will only load when the plugin is started
+        # Builds the GUI and its components, if it is the first time the plugin is launched.
         if self.first_start == True:
             self.first_start = False
-
+            #Saves the temporary file path, which contains last sen2cor path entered by the user.
             self.tmpToolPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/lastToolPath.tmp"
-
+            # Creates and saves the plugin dialog window instance.
             self.dlg = Sen2CorAdapterDialog()
             self.dlg.tabWidget.setCurrentIndex(0)
             self.dlg.consoleArea.setReadOnly(True)
 
-            # Add run button in bottom button box
+            # Add run and stop buttons in bottom button box
             self.dlg.runButton = QPushButton("Run")
             self.dlg.stopButton = QPushButton("Stop")
             self.dlg.stopButton.setEnabled(False)
@@ -584,9 +604,9 @@ class Sen2CorAdapter:
             self.dlg.runButton.clicked.connect(self.startProcess)
             self.dlg.stopButton.clicked.connect(self.stopProcess)
 
+            # Config sen2cor tool path chooser to ask for a directory
             self.dlg.toolPathChooser.setStorageMode(self.dlg.toolPathChooser.StorageMode.GetDirectory)
             self.dlg.toolPathChooser.fileChanged.connect(self.saveToolPath)
-
             # Config input file chooser to ask for a directory
             self.dlg.inputChooser.setStorageMode(self.dlg.inputChooser.StorageMode.GetDirectory)
             self.dlg.outputChooser.setStorageMode(self.dlg.outputChooser.StorageMode.GetDirectory)
@@ -615,14 +635,14 @@ class Sen2CorAdapter:
             self.process.finished.connect(self.enableRunButton)
 
 
-        #MAIN CODE
-
+        # Checking if sen2cor path has already been entered by the user.
+        # If yes, reads the path saved in temporary file, and stores it in the related form.
         if os.path.isfile(self.tmpToolPath):
             tmpFile = open(self.tmpToolPath, "r")
             self.dlg.toolPathChooser.setFilePath(tmpFile.readline())
             tmpFile.close()
 
-        # Initialize default values
+        # Initializing default values
         self.dlg.scCheck.setChecked(False)
         self.dlg.crCheck.setChecked(False)
         self.dlg.resCombo.setCurrentIndex(2)
@@ -641,10 +661,7 @@ class Sen2CorAdapter:
         self.dlg.adjacencyRangeForm.setText(str("1.0"))
         self.dlg.smoothWvMapForm.setText(str("100.0"))
 
-        #END MAIN CODE
-
-
-        # show the dialog
+        # shows the dialog windows
         self.dlg.show()
         # Run the dialog event loop
         #result = self.dlg.exec_()
