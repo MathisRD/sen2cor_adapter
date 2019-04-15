@@ -420,22 +420,52 @@ class Sen2CorAdapter:
         """Displays sen2cor process output in the log text area."""
         cursor = self.dlg.consoleArea.textCursor()
         cursor.movePosition(cursor.End)
-        cursor.insertText(str(self.process.readAllStandardOutput(), encoding='utf-8'))
+        outText = str(self.process.readAllStandardOutput(), encoding='utf-8')
+        cursor.insertText(outText)
         cursor.insertText(str(self.process.readAllStandardError(), encoding='utf-8'))
         self.dlg.consoleArea.ensureCursorVisible()
+        if outText[slice(12)] == "Progress[%]:":
+
+            if self.dlg.progressBar.maximum() != 100:
+                self.dlg.progressBar.setRange(0,100)
+
+            if outText[14] == '.':
+                try:
+                    value = int(outText[13])
+                    self.dlg.progressBar.setValue(value)
+                    self.previousValue = value
+                except (ValueError, TypeError):
+                    self.dlg.progressBar.setValue(self.previousValue)
+            else:
+                try:
+                    value = int(outText[slice(13,15,1)])
+                    self.dlg.progressBar.setValue(value)
+                    self.previousValue = value
+                except (ValueError, TypeError):
+                    self.dlg.progressBar.setValue(self.previousValue)
+        else:
+            self.dlg.progressBar.setRange(0,0)
 
     def disableRunButton(self):
         """Called when sen2cor processing starts. Disables run button, enables stop button and shows the log text area."""
         self.dlg.runButton.setEnabled(False)
         self.dlg.stopButton.setEnabled(True)
         self.dlg.scrollArea.setEnabled(False)
+        # Displays the log tab
         self.dlg.tabWidget.setCurrentIndex(1)
+
+        self.dlg.progressBar.setRange(0,0)
+        self.dlg.progressBar.setValue(0)
+        self.previousValue = 0
 
     def enableRunButton(self):
         """Called when sen2cor processing ends. Disables stop button and enables stop button."""
         self.dlg.runButton.setEnabled(True)
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
+        # Stops the progress bar waiting state
+        self.dlg.progressBar.setRange(0,100)
+        self.dlg.progressBar.setValue(100)
 
     def stopProcess(self):
         """Called by pressing stop button. Kills sen2cor running process."""
@@ -660,6 +690,10 @@ class Sen2CorAdapter:
         self.dlg.wvThresCirrusForm.setText(str("0.25"))
         self.dlg.adjacencyRangeForm.setText(str("1.0"))
         self.dlg.smoothWvMapForm.setText(str("100.0"))
+
+        # Initializing progress bar
+        self.dlg.progressBar.setRange(0,1)
+        self.dlg.progressBar.setValue(0)
 
         # shows the dialog windows
         self.dlg.show()
