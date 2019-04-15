@@ -424,25 +424,31 @@ class Sen2CorAdapter:
         cursor.insertText(outText)
         cursor.insertText(str(self.process.readAllStandardError(), encoding='utf-8'))
         self.dlg.consoleArea.ensureCursorVisible()
+        # Parses progress value from sen2cor logs, to set the progress bar value
         if outText[slice(12)] == "Progress[%]:":
-
+            #Checks if the progress bar was in undetermined state (range of (0,0))
             if self.dlg.progressBar.maximum() != 100:
                 self.dlg.progressBar.setRange(0,100)
 
+            #If progress value is x.xx
             if outText[14] == '.':
                 try:
+                    # retrieve integer part of the float progress value (first digit)
                     value = int(outText[13])
                     self.dlg.progressBar.setValue(value)
                     self.previousValue = value
                 except (ValueError, TypeError):
                     self.dlg.progressBar.setValue(self.previousValue)
+            # else it is xx.xx
             else:
                 try:
+                    # retrieve integer part of the float progress value (2 first digits)
                     value = int(outText[slice(13,15,1)])
                     self.dlg.progressBar.setValue(value)
                     self.previousValue = value
                 except (ValueError, TypeError):
                     self.dlg.progressBar.setValue(self.previousValue)
+        # If the line is not in the form of "Progress[%]: x", sets the progress bar to undetermined state
         else:
             self.dlg.progressBar.setRange(0,0)
 
@@ -453,7 +459,7 @@ class Sen2CorAdapter:
         self.dlg.scrollArea.setEnabled(False)
         # Displays the log tab
         self.dlg.tabWidget.setCurrentIndex(1)
-
+        #Sets progress bar to undetermined state
         self.dlg.progressBar.setRange(0,0)
         self.dlg.progressBar.setValue(0)
         self.previousValue = 0
@@ -463,7 +469,7 @@ class Sen2CorAdapter:
         self.dlg.runButton.setEnabled(True)
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
-        # Stops the progress bar waiting state
+        # Sets the progress bar as finished
         self.dlg.progressBar.setRange(0,100)
         self.dlg.progressBar.setValue(100)
 
@@ -522,7 +528,7 @@ class Sen2CorAdapter:
         if resText != "ALL":
             commandParams.append("--resolution")
             commandParams.append(resText)
-            
+
         if self.dlg.scCheck.isChecked():
             commandParams.append("--sc_only")
 
@@ -694,10 +700,6 @@ class Sen2CorAdapter:
         self.dlg.wvThresCirrusForm.setText(str("0.25"))
         self.dlg.adjacencyRangeForm.setText(str("1.0"))
         self.dlg.smoothWvMapForm.setText(str("100.0"))
-
-        # Initializing progress bar
-        self.dlg.progressBar.setRange(0,1)
-        self.dlg.progressBar.setValue(0)
 
         # shows the dialog windows
         self.dlg.show()
