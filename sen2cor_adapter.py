@@ -515,10 +515,14 @@ class Sen2CorAdapter:
 
         # Adds sen2cor executable as param
         commandParams.append(script)
-        # Adds resolution value as param
-        commandParams.append("--resolution")
-        commandParams.append(str(self.dlg.resCombo.currentText()))
 
+        # Adds resolution value as param
+        # If ALL is choosen, no resolution param is given (All resolutions are processed by default in sen2cor)
+        resText = str(self.dlg.resCombo.currentText())
+        if resText != "ALL":
+            commandParams.append("--resolution")
+            commandParams.append(resText)
+            
         if self.dlg.scCheck.isChecked():
             commandParams.append("--sc_only")
 
