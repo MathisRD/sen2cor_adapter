@@ -23,7 +23,7 @@
 """
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QXmlStreamWriter, QFile, QProcess
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QDialogButtonBox, QPushButton, QErrorMessage, QMessageBox
+from PyQt5.QtWidgets import QAction, QDialogButtonBox, QPushButton, QErrorMessage, QMessageBox, QProgressDialog
 from qgis.gui import *
 from qgis.core import *
 
@@ -465,13 +465,66 @@ class Sen2CorAdapter:
         self.previousValue = 0
 
     def enableRunButton(self):
-        """Called when sen2cor processing ends. Disables stop button and enables stop button."""
+        """Called when sen2cor processing ends. Disables stop button and enables stop button. Performs importation in QGIS project if wanted."""
         self.dlg.runButton.setEnabled(True)
         self.dlg.stopButton.setEnabled(False)
         self.dlg.scrollArea.setEnabled(True)
         # Sets the progress bar as finished
         self.dlg.progressBar.setRange(0,100)
         self.dlg.progressBar.setValue(100)
+        # If the process finished by itself (not a user stop action)
+        if self.process.exitCode() == 0:
+            # Asking if the user wants to import the processed product
+            result = QMessageBox().question(self.dlg, self.tr("Import processed product ?"), self.tr("Process finished !\nDo you want to import the processed product into your QGIS project ?\n\nNOTE: Depending on your product size, QGIS and Sen2Cor_Adapter windows may freeze for a couple of seconds during importation."), QMessageBox.Yes, QMessageBox.No)
+            if result == QMessageBox.Yes:
+                importSuccess = False
+                # If the output dir was specified
+                if self.dlg.outputChooser.filePath() != "":
+                    outputProduct = self.dlg.outputChooser.filePath()
+                # Otherwise we use the default output (same parent folder than input product)
+                else:
+                    outputProduct = self.dlg.inputChooser.filePath().replace('L1C','L2A')
+                # Then checking if the product has a valid structure
+                if os.path.isdir(outputProduct):
+                    imagesPath = os.path.join(outputProduct,"GRANULE")
+                    if os.path.isdir(imagesPath):
+                        L2AFolder = os.listdir(imagesPath)[0]
+                        if L2AFolder[slice(3)] == "L2A":
+                            imagesPath = os.path.join(imagesPath,L2AFolder)
+                            if os.path.isdir(imagesPath):
+                                imagesPath = os.path.join(imagesPath,"IMG_DATA")
+                                if os.path.isdir(imagesPath):
+                                    resolutions = os.listdir(imagesPath)
+                                    # Retrieving root node of the tree layer in QGIS project
+                                    layersRoot = QgsProject.instance().layerTreeRoot()
+                                    # Adding subgroup containing all the processed product to import
+                                    productGroup = layersRoot.addGroup(L2AFolder)
+                                    productGroup.setItemVisibilityChecked(False)
+                                    productGroup.setExpanded(False)
+                                    importSuccess = True
+                                    # For each resolution, i.e 60, 20 and/or 10m
+                                    for resFolder in resolutions:
+                                        # Creating a subgroup containing all files of the same resolution
+                                        resolutionGroup = productGroup.addGroup(resFolder)
+                                        resolutionGroup.setItemVisibilityChecked(False)
+                                        resolutionGroup.setExpanded(False)
+                                        rasterFolder = os.path.join(imagesPath,resFolder)
+                                        # For each raster file of the current resolution
+                                        for rasterFile in os.listdir(rasterFolder):
+                                            # Importing the raster file as a raster layer, naming it with its related band name.
+                                            # (The band name is specified at the end of the file name, that we extract using slice() method)
+                                            rasterLayer = QgsRasterLayer(os.path.join(rasterFolder,rasterFile),rasterFile[slice(int(len(rasterFile)-11),int(len(rasterFile)-4),1)])
+                                            if rasterLayer.isValid():
+                                                # Adding the raster layer to the project, without placing it in the layer tree.
+                                                QgsProject.instance().addMapLayer(rasterLayer, False)
+                                                # Insert the raster layer in the layer tree, in the related resolution group.
+                                                insertedLayer = resolutionGroup.insertLayer(-1, rasterLayer)
+                                                insertedLayer.setItemVisibilityChecked(False)
+                                                insertedLayer.setExpanded(False)
+                if importSuccess:
+                    QMessageBox().information(self.dlg,self.tr("Import result"),self.tr("Import successful !"))
+                else:
+                    QMessageBox().critical(self.dlg,self.tr("Import result"),self.tr("Import failed !\nDid you changed the output product structure or name ?"))
 
     def stopProcess(self):
         """Called by pressing stop button. Kills sen2cor running process."""
