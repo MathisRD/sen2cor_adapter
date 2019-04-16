@@ -561,6 +561,11 @@ class Sen2CorAdapter:
 
     def runProcess(self):
         """Starts the SEN2COR processing, by calling SEN2COR executable in a subprocess, with the required params (i.e resolution or L2A_GIPP.xml file path)."""
+        # Displays start message in log area
+        cursor = self.dlg.consoleArea.textCursor()
+        cursor.movePosition(cursor.End)
+        cursor.insertText("Starting SEN2COR process, please wait...\n")
+
         # String array, in which all command params will be stored.
         commandParams = []
 
