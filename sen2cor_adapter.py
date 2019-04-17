@@ -16,7 +16,7 @@
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
+ *   the Free Software Foundation; either version 3 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
@@ -627,6 +627,18 @@ class Sen2CorAdapter:
         tmpFile.write(self.toolPath)
         tmpFile.close()
 
+    def showLicense(self):
+        self.dlg.licenseButton.setEnabled(False)
+        # Fill about tab text area with LICENSE file text
+        licenseFilePath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"LICENSE")
+        if os.path.isfile(licenseFilePath):
+            licenseFile = open(licenseFilePath, "r")
+            cursor = self.dlg.aboutTextArea.textCursor()
+            cursor.movePosition(cursor.End)
+            cursor.insertText("\n####################################\nLICENSE\n####################################\n")
+            cursor.insertText(licenseFile.read())
+            licenseFile.close()
+
     def toggleCustomSettings(self):
         """Enables the user to custom sen2cor settings if no LA2_GIPP file has been entered.
             Otherwise, it disables the input form if a L2A_GIPP file has been entered."""
@@ -701,6 +713,7 @@ class Sen2CorAdapter:
             self.dlg.button_box.addButton(self.dlg.stopButton, QDialogButtonBox.ActionRole)
             self.dlg.runButton.clicked.connect(self.startProcess)
             self.dlg.stopButton.clicked.connect(self.stopProcess)
+            self.dlg.licenseButton.clicked.connect(self.showLicense)
 
             # Config sen2cor tool path chooser to ask for a directory
             self.dlg.toolPathChooser.setStorageMode(self.dlg.toolPathChooser.StorageMode.GetDirectory)
