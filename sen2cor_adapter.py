@@ -8,7 +8,7 @@
                               -------------------
         begin                : 2019-03-25
         git sha              : $Format:%H$
-        copyright            : (C) 2019 by Mathis RACINNE-DIVET
+        copyright            : (C) 2019 by Mathis RACINNE-DIVET, IRISA, Université Bretagne Sud
         email                : mathracinne@gmail.com
  ***************************************************************************/
 

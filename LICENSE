@@ -1,0 +1,32 @@
+Sen2Cor_Adapter
+Copyright (C) 2019 by Mathis RACINNE-DIVET, IRISA, Université Bretagne Sud
+email: mathracinne@gmail.com
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+You can find a copy of the GNU General Public License 3 in copyright/GPLv3.txt
+or here: https://www.gnu.org/licenses/gpl-3.0.html
+
+
+#################################################################
+Notice of Third Party Software Licenses
+#################################################################
+
+L2A_GIPP_Template.xml file belongs to the European Space Agency (ESA)
+Copyright : Copyright (C) 2017 European Space Agency (ESA).
+      	    All Rights reserved
+License   : Apache 2.0
+
+You can find a copy of the Apache 2.0 License in copyright/Apache2.txt
+or here: https://www.apache.org/licenses/LICENSE-2.0
+
+
+tmp/L2A_GIPP_Custom.xml file is a modified version of L2A_GIPP_Template.xml file.

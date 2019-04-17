@@ -5,7 +5,7 @@
 #							 -------------------
 #		begin				: 2019-03-25
 #		git sha				: $Format:%H$
-#		copyright			: (C) 2019 by Mathis RACINNE-DIVET
+#		copyright			: (C) 2019 by Mathis RACINNE-DIVET, IRISA, Université Bretagne Sud
 #		email				: mathracinne@gmail.com
 # ***************************************************************************/
 #
@@ -13,7 +13,7 @@
 # *																		 *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU General Public License as published by  *
-# *   the Free Software Foundation; either version 2 of the License, or	 *
+# *   the Free Software Foundation; either version 3 of the License, or	 *
 # *   (at your option) any later version.								   *
 # *																		 *
 # ***************************************************************************/
@@ -84,7 +84,7 @@ default:
 	@echo A Python script, pb_tool provides platform independent management of
 	@echo your plugins and runs anywhere.
 	@echo You can install pb_tool using: pip install pb_tool
-	@echo See https://g-sherman.github.io/plugin_build_tool/ for info. 
+	@echo See https://g-sherman.github.io/plugin_build_tool/ for info.
 
 compile: $(COMPILED_RESOURCE_FILES)
 
