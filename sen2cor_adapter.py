@@ -190,8 +190,8 @@ class Sen2CorAdapter:
     def writeGipp(self):
         """Creates a custom L2A_GIPP.xml file, using the values entered by the user in the GUI."""
         # Saving L2A-GIPP template and output path
-        templateGippPath = os.path.dirname(os.path.realpath(__file__))+"/L2A_GIPP_Template.xml"
-        customGippPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
+        templateGippPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"L2A_GIPP_Template.xml")
+        customGippPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"tmp","L2A_GIPP_Custom.xml")
 
         # Importing the template xml data
         tree = ET.parse(templateGippPath)
@@ -245,9 +245,9 @@ class Sen2CorAdapter:
         isOk = False
         if self.toolPath != "":
             if platform.system() == "Windows":
-                self.toolProcessPath = self.toolPath+"\\L2A_Process.bat"
+                self.toolProcessPath = os.path.join(self.toolPath,"L2A_Process.bat")
             else:
-                self.toolProcessPath = self.toolPath+"/bin/L2A_Process"
+                self.toolProcessPath = os.path.join(self.toolPath,"bin","L2A_Process")
 
             if os.path.isfile(self.toolProcessPath):
                 isOk = True
@@ -572,10 +572,10 @@ class Sen2CorAdapter:
         if platform.system() == "Windows":
             command = "cmd"
             commandParams.append("/c")
-            script = self.toolPath+"\\L2A_Process.bat"
+            script = os.path.join(self.toolPath,"L2A_Process.bat")
         else:
             command = "bash"
-            script = self.toolPath+"/bin/L2A_Process"
+            script = os.path.join(self.toolPath,"bin","L2A_Process")
 
         # Adds sen2cor executable as param
         commandParams.append(script)
@@ -598,9 +598,9 @@ class Sen2CorAdapter:
         # If no L2A_GIPP.xml file is specified by the user, uses the automatically generated one with the parameters entered in the form.
         if self.dlg.gippChooser.filePath() == "":
             if platform.system() == "Windows":
-                gippL2APath = os.path.dirname(os.path.realpath(__file__))+"\\tmp\\L2A_GIPP_Custom.xml"
+                gippL2APath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"tmp","L2A_GIPP_Custom.xml")
             else:
-                gippL2APath = os.path.dirname(os.path.realpath(__file__))+"/tmp/L2A_GIPP_Custom.xml"
+                gippL2APath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"tmp","L2A_GIPP_Custom.xml")
 
             commandParams.append(gippL2APath)
         # Otherwise, gives the L2A_GIPP.xml file specified by the user directly to sen2cor.
@@ -687,7 +687,7 @@ class Sen2CorAdapter:
         if self.first_start == True:
             self.first_start = False
             #Saves the temporary file path, which contains last sen2cor path entered by the user.
-            self.tmpToolPath = os.path.dirname(os.path.realpath(__file__))+"/tmp/lastToolPath.tmp"
+            self.tmpToolPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"tmp","lastToolPath.tmp")
             # Creates and saves the plugin dialog window instance.
             self.dlg = Sen2CorAdapterDialog()
             self.dlg.tabWidget.setCurrentIndex(0)
