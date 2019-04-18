@@ -480,7 +480,7 @@ class Sen2CorAdapter:
                 importSuccess = False
                 # If the output dir was specified
                 if self.dlg.outputChooser.filePath() != "":
-                    outputProduct = self.dlg.outputChooser.filePath()
+                    outputProduct = os.path.join(self.dlg.outputChooser.filePath(),os.path.basename(self.dlg.inputChooser.filePath().replace('L1C','L2A')))
                 # Otherwise we use the default output (same parent folder than input product)
                 else:
                     outputProduct = self.dlg.inputChooser.filePath().replace('L1C','L2A')
