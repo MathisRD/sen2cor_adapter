@@ -473,7 +473,7 @@ class Sen2CorAdapter:
         self.dlg.progressBar.setRange(0,100)
         self.dlg.progressBar.setValue(100)
         # If the process finished by itself (not a user stop action)
-        if self.process.exitCode() == 0:
+        if self.process.exitCode() == 0 and not self.dlg.crCheck.isChecked():
             # Asking if the user wants to import the processed product
             result = QMessageBox().question(self.dlg, self.tr("Import processed product ?"), self.tr("Process finished !\nDo you want to import the processed product into your QGIS project ?\n\nNOTE: Depending on your product size, QGIS and Sen2Cor_Adapter windows may freeze for a couple of seconds during importation."), QMessageBox.Yes, QMessageBox.No)
             if result == QMessageBox.Yes:
