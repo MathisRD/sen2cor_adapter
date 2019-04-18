@@ -25,7 +25,7 @@ repository=https://github.com/MathisRD/sen2cor_adapter
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=processing
+tags=processing,raster,Sentinel-2,python
 
 # homepage=http://homepage
 category=Raster
