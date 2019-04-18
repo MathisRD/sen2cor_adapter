@@ -744,6 +744,9 @@ class Sen2CorAdapter:
             self.process.readyRead.connect(self.logProcessOutput)
             self.process.started.connect(self.disableRunButton)
             self.process.finished.connect(self.enableRunButton)
+            # Sets the progress bar value to 0
+            self.dlg.progressBar.setRange(0,100)
+            self.dlg.progressBar.setValue(0)
 
 
         # Checking if sen2cor path has already been entered by the user.
