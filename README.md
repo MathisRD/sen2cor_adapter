@@ -1,3 +1,2 @@
 # QGIS SEN2COR tool adapter
-Plugin for implementing sen2cor tool in QGIS
-### Note: Still under development process
+Sen2Cor Adapter is a plugin that enables users to use graphically in QGIS the SEN2COR tool created by the European Space Agency.

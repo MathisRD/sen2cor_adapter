@@ -1,7 +1,7 @@
-# This file contains metadata for your plugin. Since 
-# version 2.0 of QGIS this is the proper way to supply 
-# information about a plugin. The old method of 
-# embedding metadata in __init__.py will 
+# This file contains metadata for your plugin. Since
+# version 2.0 of QGIS this is the proper way to supply
+# information about a plugin. The old method of
+# embedding metadata in __init__.py will
 # is no longer supported since version 2.0.
 
 # This file should be included when you package your plugin.# Mandatory items:
@@ -9,15 +9,14 @@
 [general]
 name=Sen2Cor Adapter
 qgisMinimumVersion=3.0
-description=Provides integration of the Sen2Cor tool in QGIS
-version=0.1
+description=Provides graphical integration of the Sen2Cor tool in QGIS.
+version=1.0
 author=Mathis RACINNE-DIVET
 email=mathracinne@gmail.com
 
-about=This plugin provides integration of the Sen2Cor tool in QGIS.
+about=Sen2Cor Adapter is a plugin that enables users to use graphically in QGIS the SEN2COR tool created by the European Space Agency.
 
-tracker=http://bugs
-repository=http://repo
+repository=https://github.com/MathisRD/sen2cor_adapter
 # End of mandatory metadata
 
 # Recommended items:
@@ -28,7 +27,7 @@ repository=http://repo
 # Tags are comma separated with spaces allowed
 tags=processing
 
-homepage=http://homepage
+# homepage=http://homepage
 category=Raster
 icon=icon.png
 # experimental flag
@@ -36,4 +35,3 @@ experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-
