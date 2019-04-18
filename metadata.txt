@@ -16,6 +16,7 @@ email=mathracinne@gmail.com
 
 about=Sen2Cor Adapter is a plugin that enables users to use graphically in QGIS the SEN2COR tool created by the European Space Agency.
 
+tracker=https://github.com/MathisRD/sen2cor_adapter/issues
 repository=https://github.com/MathisRD/sen2cor_adapter
 # End of mandatory metadata
 
